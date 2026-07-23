@@ -1,12 +1,14 @@
 import "./App.css";
-import HeaderSection from "./HeaderSection";
 import { ThemeProvider } from "./ContextProvider";
+import HeaderSection from "./HeaderSection";
+import MainLlistsCreator from "./MainListsCreator";
 
 function App() {
   return (
     <ThemeProvider>
       <div dir="rtl" className="app">
         <HeaderSection />
+        <MainLlistsCreator />
       </div>
     </ThemeProvider>
   );
