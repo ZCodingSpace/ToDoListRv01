@@ -1,10 +1,14 @@
-import './App.css';
+import "./App.css";
+import HeaderSection from "./HeaderSection";
+import { ThemeProvider } from "./ContextProvider";
 
 function App() {
   return (
-    <div className="App">
- 
-    </div>
+    <ThemeProvider>
+      <div dir="rtl" className="app">
+        <HeaderSection />
+      </div>
+    </ThemeProvider>
   );
 }
 

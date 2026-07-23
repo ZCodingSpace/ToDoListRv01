@@ -1,0 +1,49 @@
+.header-section-container {
+
+    padding: 1rem;
+    justify-content: space-between;
+    border-radius: 0 0 0 5rem;
+}
+
+.light{
+    background: linear-gradient(270deg, #7e5a9b, #b288c0, #e4b7e5);
+
+}
+.dark{
+    background: linear-gradient(270deg, #415A77, #778DA9, #E0E1DD);
+}
+
+.toDo-title {
+    font-size: 4rem;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .toDo-title {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+}
+
+.tody-date-container {
+    font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .tody-date-container {
+        font-size: 1rem;
+    }
+}
+
+.theme-on {
+    display: block
+}
+
+.theme-off {
+    display: none;
+}
+
+.theme-container {
+    width: 4rem;
+    height: 4rem;
+}
