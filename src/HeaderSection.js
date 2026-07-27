@@ -1,12 +1,11 @@
 import "./HeaderSection.css";
 import { useContext } from "react";
-import LightModeIcon from "@mui/icons-material/LightModeOutlined";
-import DarkModeIcon from "@mui/icons-material/DarkModeOutlined";
+// import LightModeIcon from "@mui/icons-material/LightModeOutlined";
+// import DarkModeIcon from "@mui/icons-material/DarkModeOutlined";
 import { ThemeContext } from "./CustomContext";
 
 export default function HeaderSection() {
   const { theme, changeTheme } = useContext(ThemeContext);
-  console.log(theme);
 
   const hijriDateFormatter = new Intl.DateTimeFormat("ar-SA-u-ca-islamic", {
     year: "numeric",
@@ -40,22 +39,10 @@ export default function HeaderSection() {
         <div>
           <div className="center theme-container">
             <div className={`${theme.light}`} onClick={changeTheme}>
-              <LightModeIcon
-                sx={{
-                  "@media (min-width: 767px)": {
-                    fontSize: "3rem",
-                  },
-                }}
-              />
+
             </div>
             <div className={`${theme.dark}`} onClick={changeTheme}>
-              <DarkModeIcon
-                sx={{
-                  "@media (min-width: 767px)": {
-                    fontSize: "3rem",
-                  },
-                }}
-              />
+
             </div>
           </div>
         </div>

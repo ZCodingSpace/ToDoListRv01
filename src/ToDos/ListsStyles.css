@@ -1,0 +1,15 @@
+
+.accordions-main-container{
+
+    /* background-color: aquamarine; */
+}
+
+.accordions-container{
+    width: 85vw;
+
+    /* background-color: red; */
+}
+
+.completed-task{
+    text-decoration: line-through;
+}
