@@ -1,7 +1,7 @@
 import "./HeaderSection.css";
 import { useContext } from "react";
-// import LightModeIcon from "@mui/icons-material/LightModeOutlined";
-// import DarkModeIcon from "@mui/icons-material/DarkModeOutlined";
+import { MoonIcon } from "@heroicons/react/24/outline";
+import { SunIcon } from "@heroicons/react/24/outline";
 import { ThemeContext } from "./CustomContext";
 
 export default function HeaderSection() {
@@ -38,11 +38,12 @@ export default function HeaderSection() {
         {/* Theme Toggle */}
         <div>
           <div className="center theme-container">
-            <div className={`${theme.light}`} onClick={changeTheme}>
-
-            </div>
             <div className={`${theme.dark}`} onClick={changeTheme}>
+              <SunIcon className="h-6 w-6 text-gray-500" />
+            </div>
 
+            <div className={`${theme.light}`} onClick={changeTheme}>
+              <MoonIcon className="h-6 w-6 text-gray-500" />
             </div>
           </div>
         </div>

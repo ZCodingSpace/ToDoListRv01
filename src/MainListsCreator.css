@@ -9,6 +9,18 @@
     padding: 0 1rem;
     cursor: pointer;
     border-radius: 0.5rem;
+
+    SVG {
+        width: 1.5rem;
+    }
+
+    @media (min-width: 767px) {
+
+        SVG {
+            width: 2.5rem;
+        }
+
+    }
 }
 
 .add-list-button-container:hover {
