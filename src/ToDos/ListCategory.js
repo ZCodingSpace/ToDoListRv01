@@ -1,14 +1,31 @@
 // import { useId } from "react";
 import "./ListsStyles.css";
-// import CheckboxList from "./CheckboxList";
+import { PlusIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import ToDo from "./ToDo";
 
-export default function AccordionTransition() {
-  // const id = useId();
+export default function ListCategory({listTitle, todoList}) {
+
+
+  let todos = todoList.map((todo) => {
+    return <ToDo key={todo.taskID} title={todo.title} status={todo.status}></ToDo>;
+  });
 
   return (
-    <div className="accordions-main-container center">
-      <div className="accordions-container">
-
+    <div className="listCategory-main-container center">
+      <div className="listCategory-container center">
+        <div className="category-header center">
+          <div className="center">
+            <ChevronDownIcon className="h-6 w-6 text-gray-500" />
+            <h2>قائمة الصباح</h2>
+          </div>
+          <div>
+            <PlusIcon className="h-6 w-6 text-gray-500" />
+          </div>
+        </div>
+        <div className="todos-container">
+          {todos}
+        </div>
       </div>
     </div>
   );

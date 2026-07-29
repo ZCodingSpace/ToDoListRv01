@@ -1,10 +1,90 @@
+/* --- Main Lists Creator Component - START --- */
 
-.accordions-container{
-    width: 85vw;
-
-    /* background-color: red; */
+.add-list-row {
+    padding: 2rem;
 }
 
-.completed-task{
+.add-list-button-container {
+    width: fit-content;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+
+    SVG {
+        width: 1.5rem;
+    }
+
+    @media (min-width: 767px) {
+
+        SVG {
+            width: 2.5rem;
+        }
+
+    }
+}
+
+.add-list-button-container:hover {
+    border-bottom: 2px solid #7e5a9b;
+}
+
+.list-categories-container {
+    flex-direction: column;
+    gap: 4rem;
+}
+/* --- Main Lists Creator Component - END --- */
+
+
+/* --- List Category Component - START --- */
+.listCategory-main-container {
+    width: 100vw;
+
+    .listCategory-container {
+        width: 85%;
+        flex-direction: column;
+
+        .category-header {
+            width: 100%;
+            padding: 0.2rem 1rem;
+            justify-content: space-between;
+            border-radius: 0.4rem;
+            background-color: #e4b7e5;
+
+            SVG {
+                width: 2rem;
+            }
+        }
+
+        .todos-container {
+            width: 97%;
+            padding: 0.2rem 1rem;
+
+            .todo {
+                justify-content: space-between;
+                border-bottom: 1px solid #e4b7e5;
+                font-size: 1.5rem;
+
+                div {
+                    gap: 0.5rem;
+                }
+
+                SVG {
+                    width: 1.5rem;
+                }
+            }
+        }
+
+
+    }
+
+
+}
+
+/* --- List Category Component - END --- */
+
+
+
+.completed-task {
     text-decoration: line-through;
 }
