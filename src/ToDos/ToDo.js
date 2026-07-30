@@ -7,7 +7,7 @@ export default function ToDo({title, status}) {
       <div className="todo center">
         <div className="center">
           <input type="checkbox"></input>
-          <p>{title}</p>
+          <p className={`${status}`}>{title}</p>
         </div>
         <div>
           <XMarkIcon className="h-6 w-6 text-gray-500" />

@@ -1,29 +1,13 @@
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import ListCategory from "./ListCategory";
-import { useId } from "react";
+import { useContext } from "react";
+import { DataContext } from "../CustomContext";
+
 
 export default function MainLlistsCreator() {
-  const lists = [
-    {
-      listID: useId(),
-      listTitle: "",
-      todoList: [
-        { taskID: useId(), title: "المهمة الأولى", status: "" },
-        { taskID: useId(), title: "المهمة الأولى", status: "" },
-        { taskID: useId(), title: "المهمة الأولى", status: "" },
-      ],
-    },
-    {
-      listID: useId(),
-      listTitle: "",
-      todoList: [{ taskID: useId(), title: "المهمة الثانية", status: "" }],
-    },
-    {
-      listID: useId(),
-      listTitle: "",
-      todoList: [{ taskID: useId(), title: "المهمة الثالثة", status: "" }],
-    },
-  ];
+
+
+  const {lists, setList} = useContext(DataContext);
 
   let listCategoryComponent = lists.map((list) => {
     return (
@@ -34,6 +18,8 @@ export default function MainLlistsCreator() {
       />
     );
   });
+
+  console.log(lists)
 
   return (
     <>

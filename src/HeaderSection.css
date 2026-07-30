@@ -5,6 +5,12 @@
     border-radius: 0 0 0 5rem;
 }
 
+@media (min-width: 767px) {
+    .header-section-container {
+        padding: 1rem 2rem;
+    }
+}
+
 .light {
     background: linear-gradient(270deg, #7e5a9b, #b288c0, #e4b7e5);
 
@@ -15,24 +21,23 @@
 }
 
 .toDo-title {
-    font-size: 4rem;
+    font-size: 2rem;
     font-weight: 700;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 767px) {
     .toDo-title {
-        font-size: 2rem;
-        font-weight: 700;
+        font-size: 4rem;
     }
 }
 
 .tody-date-container {
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 767px) {
     .tody-date-container {
-        font-size: 1rem;
+        font-size: 1.5rem;
     }
 }
 
