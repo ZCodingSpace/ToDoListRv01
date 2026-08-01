@@ -7,19 +7,19 @@ import { DataContext } from "../CustomContext";
 export default function MainLlistsCreator() {
 
 
-  const {lists, setList} = useContext(DataContext);
+  const {lists} = useContext(DataContext);
 
   let listCategoryComponent = lists.map((list) => {
     return (
       <ListCategory
         key={list.listID}
+        listID={list.listID}
         listTitle={list.listTitle}
         todoList={list.todoList}
       />
     );
   });
 
-  console.log(lists)
 
   return (
     <>

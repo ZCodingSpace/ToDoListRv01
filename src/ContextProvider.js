@@ -31,16 +31,19 @@ export function ThemeProvider({ children }) {
         {
           taskID: useId(),
           title: "المهمة الأولى",
+          isChecked: false,
           status: "nonCompleted",
         },
         {
           taskID: useId(),
           title: "المهمة الأولى",
+          isChecked: true,
           status: "completed",
         },
         {
           taskID: useId(),
           title: "المهمة الأولى",
+          isChecked: false,
           status: "nonCompleted",
         },
       ],
@@ -52,6 +55,7 @@ export function ThemeProvider({ children }) {
         {
           taskID: useId(),
           title: "المهمة الثانية",
+          isChecked: false,
           status: "nonCompleted",
         },
       ],
@@ -63,6 +67,7 @@ export function ThemeProvider({ children }) {
         {
           taskID: useId(),
           title: "المهمة الثالثة",
+          isChecked: false,
           status: "nonCompleted",
         },
       ],

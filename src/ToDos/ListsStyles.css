@@ -33,6 +33,7 @@
     flex-direction: column;
     gap: 4rem;
 }
+
 /* --- Main Lists Creator Component - END --- */
 
 
@@ -84,7 +85,19 @@
 /* --- List Category Component - END --- */
 
 
+/* --- ToDo Component - START --- */
 
-.completed {
-    text-decoration: line-through;
+
+.todo {
+    .taskContent {
+        flex-grow: 1;
+        justify-content: flex-start;
+
+        .completed {
+            color: gray;
+            text-decoration: line-through;
+        }
+    }
 }
+
+/* --- ToDo Component - END --- */

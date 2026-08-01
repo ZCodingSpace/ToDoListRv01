@@ -4,10 +4,18 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import ToDo from "./ToDo";
 
-export default function ListCategory({ listTitle, todoList }) {
+export default function ListCategory({ listID, listTitle, todoList }) {
+  console.log(todoList)
   let todos = todoList.map((todo) => {
     return (
-      <ToDo key={todo.taskID} title={todo.title} status={todo.status}></ToDo>
+      <ToDo
+        key={todo.taskID}
+        listID={listID}
+        taskID={todo.taskID}
+        title={todo.title}
+        isChecked={todo.isChecked}
+        status={todo.status}
+      ></ToDo>
     );
   });
 
