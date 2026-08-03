@@ -32,17 +32,45 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
     });
   }
 
+  function updateTask(event, listID, toDoID) {
+    setList((prev) => {
+      return prev.map((list) => {
+        // Level 1: List Categories
+        return list.listID === listID
+          ? {
+              ...list,
+              todoList: list.todoList.map((toDo) => {
+                // Level 2: ToDo List
+                return toDo.taskID === toDoID
+                  ? {
+                      ...toDo,
+                      title: event.target.value,
+                    }
+                  : toDo;
+              }),
+            }
+          : list;
+      });
+    });
+  }
+
   return (
     <>
       <div className="todo center">
-        <div
-          className="center taskContent"
-          onClick={() => {
-            updateStatus(listID, taskID);
-          }}
-        >
-          <input type="checkbox" checked={isChecked} readOnly></input>
-          <p className={`${status}`}>{title}</p>
+        <div className="center taskContent">
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={() => {
+              updateStatus(listID, taskID);
+            }}
+          ></input>
+          <input
+            type="text"
+            className={`${status} task-title`}
+            value={title}
+            onChange={(event) => updateTask(event, listID, taskID)}
+          ></input>
         </div>
         <div>
           <XMarkIcon className="h-6 w-6 text-gray-500" />

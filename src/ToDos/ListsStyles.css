@@ -93,10 +93,37 @@
         flex-grow: 1;
         justify-content: flex-start;
 
+        input[type=text] {
+            width: 90%;
+            font-size: 1rem;
+            border: none;
+            /* background-color: red; */
+            
+        }
+        input[type=text]:focus {
+            border: none;
+            outline: none;
+        }
+
+        @media (min-width: 767px) {
+            input[type=text] {
+                font-size: 1.5rem;
+
+            }
+
+        }
+
         .completed {
             color: gray;
             text-decoration: line-through;
         }
+    }
+
+    @media (min-width: 767px) {
+        .taskContent {
+            padding: 1rem 0;
+        }
+
     }
 }
 
