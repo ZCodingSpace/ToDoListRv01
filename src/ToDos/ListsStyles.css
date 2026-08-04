@@ -89,17 +89,39 @@
 
 
 .todo {
-    .taskContent {
+    .task-content {
         flex-grow: 1;
         justify-content: flex-start;
+
+        input[type=checkbox] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .checkbox-container {
+            cursor: pointer;
+
+            SVG {
+
+                width: 1.5rem !important;
+            }
+
+            .checked-badge-icon {
+                color: gray;
+
+            }
+
+        }
 
         input[type=text] {
             width: 90%;
             font-size: 1rem;
             border: none;
             /* background-color: red; */
-            
+
         }
+
         input[type=text]:focus {
             border: none;
             outline: none;

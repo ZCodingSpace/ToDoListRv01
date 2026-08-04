@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { DataContext } from "../CustomContext";
 import "./ListsStyles.css";
+import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function ToDo({ listID, taskID, title, isChecked, status }) {
@@ -16,9 +17,9 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
               ...list,
               todoList: list.todoList.map((toDo) => {
                 // Level 2: ToDo List
-                return toDo.taskID === toDoID 
-                ? updater(toDo) // Callback function call
-                : toDo;
+                return toDo.taskID === toDoID
+                  ? updater(toDo) // Callback function call
+                  : toDo;
               }),
             }
           : list;
@@ -50,14 +51,18 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
   return (
     <>
       <div className="todo center">
-        <div className="center taskContent">
-          <input
-            type="checkbox"
-            checked={isChecked}
-            onChange={() => {
+        <div className="center task-content">
+          <div
+            className="checkbox-container"
+            onClick={() => {
               updateStatus(listID, taskID);
             }}
-          ></input>
+          >
+            <CheckBadgeIcon
+              className={`${isChecked ? "checked-badge-icon" : ""}`}
+            />
+            <input type="checkbox" checked={isChecked} readOnly></input>
+          </div>
           <input
             type="text"
             className={`${status} task-title`}
