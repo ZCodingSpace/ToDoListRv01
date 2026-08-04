@@ -6,7 +6,8 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 export default function ToDo({ listID, taskID, title, isChecked, status }) {
   const { setList } = useContext(DataContext);
 
-  function updateStatus(listID, toDoID) {
+  // Update the task title and status using a callback function to avoid unnecessary re-renders
+  function updateTodo(listID, toDoID, updater) {
     setList((prev) => {
       return prev.map((list) => {
         // Level 1: List Categories
@@ -15,16 +16,9 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
               ...list,
               todoList: list.todoList.map((toDo) => {
                 // Level 2: ToDo List
-                return toDo.taskID === toDoID
-                  ? {
-                      ...toDo,
-                      isChecked: toDo.isChecked ? false : true,
-                      status:
-                        toDo.status === "completed"
-                          ? "nonCompleted"
-                          : "completed",
-                    }
-                  : toDo;
+                return toDo.taskID === toDoID 
+                ? updater(toDo) // Callback function call
+                : toDo;
               }),
             }
           : list;
@@ -32,25 +26,24 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
     });
   }
 
+  // Update the status of the task and toggle the checkbox passing a callback function to updateTodo
+  function updateStatus(listID, toDoID) {
+    updateTodo(listID, toDoID, (toDo) => {
+      return {
+        ...toDo,
+        isChecked: !toDo.isChecked,
+        status: toDo.status === "completed" ? "nonCompleted" : "completed",
+      };
+    });
+  }
+
+  // Update the task title passing a callback function to updateTodo
   function updateTask(event, listID, toDoID) {
-    setList((prev) => {
-      return prev.map((list) => {
-        // Level 1: List Categories
-        return list.listID === listID
-          ? {
-              ...list,
-              todoList: list.todoList.map((toDo) => {
-                // Level 2: ToDo List
-                return toDo.taskID === toDoID
-                  ? {
-                      ...toDo,
-                      title: event.target.value,
-                    }
-                  : toDo;
-              }),
-            }
-          : list;
-      });
+    updateTodo(listID, toDoID, (toDo) => {
+      return {
+        ...toDo,
+        title: event.target.value,
+      };
     });
   }
 
