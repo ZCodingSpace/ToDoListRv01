@@ -48,10 +48,28 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
     });
   }
 
+  // Delete the task from the list
+  function deleteTask(listID, taskID) {
+    setList((prev) => {
+      return prev.map((list) => {
+        return list.listID === listID
+          ? {
+              ...list,
+              todoList: list.todoList.filter((toDo) => {
+                return toDo.taskID !== taskID;
+              }),
+            }
+          : list;
+      });
+    });
+  }
+
   return (
     <>
       <div className="todo center">
         <div className="center task-content">
+
+          {/* Checkbox Button - START */}
           <div
             className="checkbox-container"
             onClick={() => {
@@ -63,16 +81,27 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
             />
             <input type="checkbox" checked={isChecked} readOnly></input>
           </div>
+          {/* Checkbox Button - END */}
+
+          {/* Task Title Input - START */}
           <input
             type="text"
             className={`${status} task-title`}
             value={title}
             onChange={(event) => updateTask(event, listID, taskID)}
           ></input>
+          {/* Task Title Input - END */}
         </div>
+        
+        {/* Delete Task Button - START */}
         <div>
-          <XMarkIcon className="h-6 w-6 text-gray-500" />
+          <XMarkIcon
+            onClick={() => {
+              deleteTask(listID, taskID);
+            }}
+          />
         </div>
+        {/* Delete Task Button - END */}
       </div>
     </>
   );
