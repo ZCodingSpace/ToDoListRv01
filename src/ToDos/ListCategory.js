@@ -5,19 +5,43 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import ToDo from "./ToDo";
 
 export default function ListCategory({ listID, listTitle, todoList }) {
-  console.log(todoList)
-  let todos = todoList.map((todo) => {
-    return (
-      <ToDo
-        key={todo.taskID}
-        listID={listID}
-        taskID={todo.taskID}
-        title={todo.title}
-        isChecked={todo.isChecked}
-        status={todo.status}
-      ></ToDo>
-    );
-  });
+  let notCompletedTodos = todoList.reduce(
+    (notCompletedItems, todo) => {
+      if (!todo.isChecked) {
+        notCompletedItems.push(
+          <ToDo
+            key={todo.taskID}
+            listID={listID}
+            taskID={todo.taskID}
+            title={todo.title}
+            isChecked={todo.isChecked}
+            status={todo.status}
+          ></ToDo>,
+        );
+      }
+      return notCompletedItems;
+    },
+    [], // The initial value for the notCompletedItems varible
+  );
+
+  let completedTodos = todoList.reduce(
+    (completedItems, todo) => {
+      if (todo.isChecked) {
+        completedItems.push(
+          <ToDo
+            key={todo.taskID}
+            listID={listID}
+            taskID={todo.taskID}
+            title={todo.title}
+            isChecked={todo.isChecked}
+            status={todo.status}
+          ></ToDo>,
+        );
+      }
+      return completedItems;
+    },
+    [], // The initial value for the notCompletedItems varible
+  );
 
   return (
     <div className="listCategory-main-container center">
@@ -31,7 +55,8 @@ export default function ListCategory({ listID, listTitle, todoList }) {
             <PlusIcon className="h-6 w-6 text-gray-500" />
           </div>
         </div>
-        <div className="todos-container">{todos}</div>
+        <div className="todos-container">{notCompletedTodos}</div>
+        <div className="todos-container">{completedTodos}</div>
       </div>
     </div>
   );

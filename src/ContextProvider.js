@@ -36,13 +36,13 @@ export function ThemeProvider({ children }) {
         },
         {
           taskID: useId(),
-          title: "المهمة الأولى",
+          title: "المهمة الثانية",
           isChecked: true,
           status: "completed",
         },
         {
           taskID: useId(),
-          title: "المهمة الأولى",
+          title: "المهمة الثالثة",
           isChecked: false,
           status: "nonCompleted",
         },
