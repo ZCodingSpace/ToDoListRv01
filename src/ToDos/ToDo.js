@@ -68,7 +68,6 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
     <>
       <div className="todo center">
         <div className="center task-content">
-
           {/* Checkbox Button - START */}
           <div
             className="checkbox-container"
@@ -92,17 +91,33 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
           ></input>
           {/* Task Title Input - END */}
         </div>
-        
+
         {/* Delete Task Button - START */}
         <div>
           <XMarkIcon
+            className="delete-task-button"
             onClick={() => {
               deleteTask(listID, taskID);
             }}
           />
         </div>
         {/* Delete Task Button - END */}
+        <DeletionDialogBox />
       </div>
     </>
+  );
+}
+
+function DeletionDialogBox() {
+  return (
+    <div className="deletion-dialog-box-container center">
+      <div className="content-container center">
+        <p className="deletion-msg">تحذير: لا يمكن استعادة المهمة بعد حذفها. هل تريد الحذف؟</p>
+        <div className="buttons-container center">
+          <button className="confirm-button">نعم</button>
+          <button className="cancel-button">إلغاء</button>
+        </div>
+      </div>
+    </div>
   );
 }

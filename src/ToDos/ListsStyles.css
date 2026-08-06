@@ -60,20 +60,6 @@
         .todos-container {
             width: 97%;
             padding: 0.2rem 1rem;
-
-            .todo {
-                justify-content: space-between;
-                border-bottom: 1px solid #e4b7e5;
-                font-size: 1.5rem;
-
-                div {
-                    gap: 0.5rem;
-                }
-
-                SVG {
-                    width: 1.5rem;
-                }
-            }
         }
 
 
@@ -89,10 +75,16 @@
 
 
 .todo {
+
+    justify-content: space-between;
+    border-bottom: 1px solid #e4b7e5;
+    font-size: 1.5rem;
+
     .task-content {
         padding: 0.5rem 0;
         flex-grow: 1;
         justify-content: flex-start;
+        gap: 0.5rem;
 
         input[type=checkbox] {
             position: absolute;
@@ -148,6 +140,72 @@
         }
 
     }
+
+    .delete-task-button {
+        width: 1.5rem;
+
+    }
+
+    @media (min-width: 767px) {
+        .delete-task-button {
+            width: 2rem;
+        }
+
+    }
 }
 
 /* --- ToDo Component - END --- */
+
+/* --- DeletionDialogBox - START */
+
+.deletion-dialog-box-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #32323232;
+
+    .content-container {
+
+        max-width: 85vw;
+        padding: 1rem 2rem;
+        flex-direction: column;
+        gap: 2rem;
+        border-radius: 0.25rem;
+        background-color: beige;
+
+        .buttons-container {
+            width: 100%;
+            justify-content: flex-end;
+            gap: 0.5rem;
+
+            .confirm-button,
+            .cancel-button {
+
+                padding: 0.25rem 1rem;
+                font-size: 1rem;
+                border-radius: 0.25rem;
+                border: none;
+                color: #821cd6;
+                cursor: pointer;
+            }
+
+            @media (min-width: 767px) {
+
+                .confirm-button,
+                .cancel-button {
+                    font-size: 1.5rem;
+                }
+            }
+
+            .confirm-button {
+                background-color: #e4b7e51a;
+            }
+
+        }
+    }
+
+}
+
+/* --- DeletionDialogBox - END */
