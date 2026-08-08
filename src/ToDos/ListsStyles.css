@@ -143,6 +143,7 @@
 
     .delete-task-button {
         width: 1.5rem;
+        cursor: pointer;
 
     }
 
@@ -152,11 +153,12 @@
         }
 
     }
+
 }
 
 /* --- ToDo Component - END --- */
 
-/* --- DeletionDialogBox - START */
+/* --- Deletion Task Dialog Box Component - START */
 
 .deletion-dialog-box-container {
     position: absolute;
@@ -208,4 +210,13 @@
 
 }
 
-/* --- DeletionDialogBox - END */
+
+.showDeletionDialog {
+    display: flex;
+}
+
+.hideDeletionDialog {
+    display: none;
+}
+
+/* --- Deletion Task Dialog Box Component - END */

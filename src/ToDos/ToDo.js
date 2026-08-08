@@ -1,11 +1,20 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DataContext } from "../CustomContext";
 import "./ListsStyles.css";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function ToDo({ listID, taskID, title, isChecked, status }) {
+  // Access the data using useContext to manage the list of tasks
   const { setList } = useContext(DataContext);
+
+  // State to manage the visibility of the deletion dialog box,
+  // and save the listID and taskID of the task to be deleted
+  const [deletionDialogStatus, setDeletionDialogStatus] = useState({
+    status: "hideDeletionDialog",
+    listID: "",
+    taskID: "",
+  });
 
   // Update the task title and status using a callback function to avoid unnecessary re-renders
   function updateTodo(listID, toDoID, updater) {
@@ -48,19 +57,21 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
     });
   }
 
-  // Delete the task from the list
-  function deleteTask(listID, taskID) {
-    setList((prev) => {
-      return prev.map((list) => {
-        return list.listID === listID
-          ? {
-              ...list,
-              todoList: list.todoList.filter((toDo) => {
-                return toDo.taskID !== taskID;
-              }),
-            }
-          : list;
-      });
+  // Show the deletion dialog box and save the listID and taskID of the task to be deleted
+  function alertWindow(listID, toDoID) {
+    setDeletionDialogStatus({
+      ...deletionDialogStatus,
+      status: "showDeletionDialog",
+      listID: listID,
+      taskID: toDoID,
+    });
+  }
+
+  // Hide the deletion dialog box and reset the listID and taskID of the task to be deleted
+  function closeAlertWindow(listID, toDoID) {
+    setDeletionDialogStatus({
+      ...deletionDialogStatus,
+      status: "hideDeletionDialog",
     });
   }
 
@@ -93,30 +104,69 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
         </div>
 
         {/* Delete Task Button - START */}
-        <div>
-          <XMarkIcon
-            className="delete-task-button"
-            onClick={() => {
-              deleteTask(listID, taskID);
-            }}
-          />
+        <div
+          onClick={() => {
+            alertWindow(listID, taskID);
+          }}
+        >
+          <XMarkIcon className="delete-task-button" />
         </div>
         {/* Delete Task Button - END */}
-        <DeletionDialogBox />
+
+        {/* Deletion Task Dialog Box - START */}
+        <DeletionTask
+          displayStatus={deletionDialogStatus}
+          closeAlertWindow={closeAlertWindow}
+        />
+        {/* Deletion Task Dialog Box - END */}
       </div>
     </>
   );
 }
 
-function DeletionDialogBox() {
+// Deletion Task Dialog Box Component
+function DeletionTask({
+  // Destructure the displayStatus prop to get the status, listID, and taskID
+  displayStatus: { status, listID, taskID },
+  // A function to close the deletion dialog box using the setDeletionDialogStatus state updater function
+  closeAlertWindow,
+}) {
+  // Access the data using useContext to manage the list of tasks
+  const { setList } = useContext(DataContext);
+
+  // Delete the task from the list
+  function deleteTask() {
+    setList((prev) => {
+      return prev.map((list) => {
+        return list.listID === listID
+          ? {
+              ...list,
+              todoList: list.todoList.filter((toDo) => {
+                return toDo.taskID !== taskID;
+              }),
+            }
+          : list;
+      });
+    });
+  }
+
   return (
-    <div className="deletion-dialog-box-container center">
+    <div className={`deletion-dialog-box-container center ${status}`}>
       <div className="content-container center">
-        <p className="deletion-msg">تحذير: لا يمكن استعادة المهمة بعد حذفها. هل تريد الحذف؟</p>
+        <p className="deletion-msg">
+          تحذير: لا يمكن استعادة المهمة بعد حذفها. هل تريد الحذف؟
+        </p>
+
+        {/* Deletion Task Buttons - START */}
         <div className="buttons-container center">
-          <button className="confirm-button">نعم</button>
-          <button className="cancel-button">إلغاء</button>
+          <button className="confirm-button" onClick={deleteTask}>
+            نعم
+          </button>
+          <button className="cancel-button" onClick={closeAlertWindow}>
+            إلغاء
+          </button>
         </div>
+        {/* Deletion Task Buttons - END */}
       </div>
     </div>
   );
