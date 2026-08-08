@@ -79,7 +79,7 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
     <>
       <div className="todo center">
         <div className="center task-content">
-          {/* Checkbox Button - START */}
+          {/* --- Checkbox Button - START --- */}
           <div
             className="checkbox-container"
             onClick={() => {
@@ -91,19 +91,19 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
             />
             <input type="checkbox" checked={isChecked} readOnly></input>
           </div>
-          {/* Checkbox Button - END */}
+          {/* --- Checkbox Button - END --- */}
 
-          {/* Task Title Input - START */}
+          {/* --- Task Title Input - START --- */}
           <input
             type="text"
             className={`${status} task-title`}
             value={title}
             onChange={(event) => updateTask(event, listID, taskID)}
           ></input>
-          {/* Task Title Input - END */}
+          {/* --- Task Title Input - END --- */}
         </div>
 
-        {/* Delete Task Button - START */}
+        {/* --- Delete Task Button - START --- */}
         <div
           onClick={() => {
             alertWindow(listID, taskID);
@@ -111,14 +111,14 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
         >
           <XMarkIcon className="delete-task-button" />
         </div>
-        {/* Delete Task Button - END */}
+        {/* --- Delete Task Button - END --- */}
 
-        {/* Deletion Task Dialog Box - START */}
+        {/* --- Deletion Task Dialog Box - START --- */}
         <DeletionTask
           displayStatus={deletionDialogStatus}
           closeAlertWindow={closeAlertWindow}
         />
-        {/* Deletion Task Dialog Box - END */}
+        {/* --- Deletion Task Dialog Box - END --- */}
       </div>
     </>
   );
