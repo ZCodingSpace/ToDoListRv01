@@ -6,7 +6,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function ToDo({ listID, taskID, title, isChecked, status }) {
   // Access the data using useContext to manage the list of tasks
-  const { setList } = useContext(DataContext);
+  const { lists, setList } = useContext(DataContext);
 
   // State to manage the visibility of the deletion dialog box,
   // and save the listID and taskID of the task to be deleted
@@ -15,6 +15,49 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
     listID: "",
     taskID: "",
   });
+
+  // Add a new task to the a specific list.
+  function addTask(listID, taskID) {
+    const [newTaskIndex, prevTaskStatus] = retrieveIndexandStatus(
+      listID,
+      taskID,
+    );
+
+    setList((prev) => {
+      return prev.map((list) => {
+        // Level 1: List Categories
+        return list.listID === listID
+          ? {
+              ...list,
+              // Level 2: Tasks
+              todoList: [
+                ...list.todoList.slice(0, newTaskIndex),
+                {
+                  taskID: crypto.randomUUID(),
+                  title: "",
+                  isChecked: false,
+                  status: prevTaskStatus,
+                  // To be continue:
+                  // This should be add the new task as completed when the previous one is already completed.
+                },
+                ...list.todoList.slice(newTaskIndex),
+              ],
+            }
+          : list;
+      });
+    });
+  }
+
+  function retrieveIndexandStatus(listID, taskID) {
+    const listIndexNum = lists.findIndex((list) => list.listID === listID);
+    const taskIndexNum = lists[listIndexNum].todoList.findIndex(
+      (task) => task.taskID === taskID,
+    );
+
+    const prevTaskStatus = lists[listIndexNum].todoList[taskIndexNum].status;
+
+    return [taskIndexNum + 1, prevTaskStatus];
+  }
 
   // Update the task title and status using a callback function to avoid unnecessary re-renders
   function updateTodo(listID, toDoID, updater) {
@@ -99,6 +142,11 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
             className={`${status} task-title`}
             value={title}
             onChange={(event) => updateTask(event, listID, taskID)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                addTask(listID, taskID);
+              }
+            }}
           ></input>
           {/* --- Task Title Input - END --- */}
         </div>
