@@ -35,10 +35,8 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
                 {
                   taskID: crypto.randomUUID(),
                   title: "",
-                  isChecked: false,
+                  isChecked: prevTaskStatus === "completed",
                   status: prevTaskStatus,
-                  // To be continue:
-                  // This should be add the new task as completed when the previous one is already completed.
                 },
                 ...list.todoList.slice(newTaskIndex),
               ],

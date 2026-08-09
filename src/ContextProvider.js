@@ -1,5 +1,5 @@
 import { ThemeContext, DataContext } from "./CustomContext";
-import { useState, useId } from "react";
+import { useState } from "react";
 
 // Provider component for managing the theme
 export function ThemeProvider({ children }) {
@@ -23,25 +23,33 @@ export function ThemeProvider({ children }) {
     });
   }
 
+    // NOTES:
+    // crypto.randomUUID() is a built‑in JavaScript function that generates
+    // a unique, random, universally‑unique identifier (UUID).
+    // It’s part of the modern Web Crypto API and is supported in all modern browsers.
+
+    // It’s the cleanest, safest way to generate unique IDs in JavaScript
+    // without using React Hooks.
+
   const listsArr = [
     {
-      listID: useId(),
+      listID: crypto.randomUUID(),
       listTitle: "قائمة الصباح",
       todoList: [
         {
-          taskID: useId(),
+          taskID: crypto.randomUUID(),
           title: "المهمة الأولى",
           isChecked: false,
           status: "nonCompleted",
         },
         {
-          taskID: useId(),
+          taskID: crypto.randomUUID(),
           title: "المهمة الثانية",
           isChecked: true,
           status: "completed",
         },
         {
-          taskID: useId(),
+          taskID: crypto.randomUUID(),
           title: "المهمة الثالثة",
           isChecked: false,
           status: "nonCompleted",
@@ -49,11 +57,11 @@ export function ThemeProvider({ children }) {
       ],
     },
     {
-      listID: useId(),
+      listID: crypto.randomUUID(),
       listTitle: "قائمة المساء",
       todoList: [
         {
-          taskID: useId(),
+          taskID: crypto.randomUUID(),
           title: "المهمة الثانية",
           isChecked: false,
           status: "nonCompleted",
@@ -61,11 +69,11 @@ export function ThemeProvider({ children }) {
       ],
     },
     {
-      listID: useId(),
+      listID: crypto.randomUUID(),
       listTitle: "قائمة إضافية",
       todoList: [
         {
-          taskID: useId(),
+          taskID: crypto.randomUUID(),
           title: "المهمة الثالثة",
           isChecked: false,
           status: "nonCompleted",

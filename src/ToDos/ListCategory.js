@@ -72,14 +72,6 @@ export default function ListCategory({ listID, listTitle, todoList }) {
           : list;
       });
     });
-
-    // NOTES:
-    // crypto.randomUUID() is a built‑in JavaScript function that generates
-    // a unique, random, universally‑unique identifier (UUID).
-    // It’s part of the modern Web Crypto API and is supported in all modern browsers.
-
-    // It’s the cleanest, safest way to generate unique IDs in JavaScript
-    // without using React Hooks.
   }
 
   return (
