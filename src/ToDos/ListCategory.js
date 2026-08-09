@@ -2,27 +2,27 @@
 import "./ListsStyles.css";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import ToDo from "./ToDo";
 import { useContext } from "react";
 import { DataContext } from "../CustomContext";
+import Task from "./Tasks";
 
 export default function ListCategory({ listID, listTitle, todoList }) {
   // Access the data using useContext to manage the list of tasks
   const { setList } = useContext(DataContext);
 
   // Collect the not completed tasks.
-  let notCompletedTodos = todoList.reduce(
-    (notCompletedItems, todo) => {
-      if (!todo.isChecked) {
+  let notCompletedTasks = todoList.reduce(
+    (notCompletedItems, task) => {
+      if (!task.isChecked) {
         notCompletedItems.push(
-          <ToDo
-            key={todo.taskID}
+          <Task
+            key={task.taskID}
             listID={listID}
-            taskID={todo.taskID}
-            title={todo.title}
-            isChecked={todo.isChecked}
-            status={todo.status}
-          ></ToDo>,
+            taskID={task.taskID}
+            title={task.title}
+            isChecked={task.isChecked}
+            status={task.status}
+          ></Task>,
         );
       }
       return notCompletedItems;
@@ -31,18 +31,18 @@ export default function ListCategory({ listID, listTitle, todoList }) {
   );
 
   // Collect the completed tasks.
-  let completedTodos = todoList.reduce(
-    (completedItems, todo) => {
-      if (todo.isChecked) {
+  let completedTasks = todoList.reduce(
+    (completedItems, task) => {
+      if (task.isChecked) {
         completedItems.push(
-          <ToDo
-            key={todo.taskID}
+          <Task
+            key={task.taskID}
             listID={listID}
-            taskID={todo.taskID}
-            title={todo.title}
-            isChecked={todo.isChecked}
-            status={todo.status}
-          ></ToDo>,
+            taskID={task.taskID}
+            title={task.title}
+            isChecked={task.isChecked}
+            status={task.status}
+          ></Task>,
         );
       }
       return completedItems;
@@ -93,10 +93,10 @@ export default function ListCategory({ listID, listTitle, todoList }) {
           {/* --- Add Task Button - END --- */}
         </div>
 
-        {/* --- Todos Container - START --- */}
-        <div className="todos-container">{notCompletedTodos}</div>
-        <div className="todos-container">{completedTodos}</div>
-        {/* --- Todos Container - END --- */}
+        {/* --- Tasks Container - START --- */}
+        <div className="todos-container">{notCompletedTasks}</div>
+        <div className="todos-container">{completedTasks}</div>
+        {/* --- Tasks Container - END --- */}
       </div>
     </div>
   );

@@ -71,10 +71,10 @@
 /* --- List Category Component - END --- */
 
 
-/* --- ToDo Component - START --- */
+/* --- Task Component - START --- */
 
 
-.todo {
+.task {
 
     justify-content: space-between;
     border-bottom: 1px solid #e4b7e5;
@@ -156,7 +156,7 @@
 
 }
 
-/* --- ToDo Component - END --- */
+/* --- Task Component - END --- */
 
 /* --- Deletion Task Dialog Box Component - START */
 

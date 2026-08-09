@@ -4,7 +4,7 @@ import "./ListsStyles.css";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-export default function ToDo({ listID, taskID, title, isChecked, status }) {
+export default function Task({ listID, taskID, title, isChecked, status }) {
   // Access the data using useContext to manage the list of tasks
   const { lists, setList } = useContext(DataContext);
 
@@ -58,18 +58,18 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
   }
 
   // Update the task title and status using a callback function to avoid unnecessary re-renders
-  function updateTodo(listID, toDoID, updater) {
+  function updateTask(listID, taskID, updater) {
     setList((prev) => {
       return prev.map((list) => {
         // Level 1: List Categories
         return list.listID === listID
           ? {
               ...list,
-              todoList: list.todoList.map((toDo) => {
-                // Level 2: ToDo List
-                return toDo.taskID === toDoID
-                  ? updater(toDo) // Callback function call
-                  : toDo;
+              todoList: list.todoList.map((task) => {
+                // Level 2: Task List
+                return task.taskID === taskID
+                  ? updater(task) // Callback function call
+                  : task;
               }),
             }
           : list;
@@ -77,39 +77,39 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
     });
   }
 
-  // Update the status of the task and toggle the checkbox passing a callback function to updateTodo
-  function updateStatus(listID, toDoID) {
-    updateTodo(listID, toDoID, (toDo) => {
+  // Update the status of the task and toggle the checkbox passing a callback function to updateTask
+  function updateStatus(listID, taskID) {
+    updateTask(listID, taskID, (task) => {
       return {
-        ...toDo,
-        isChecked: !toDo.isChecked,
-        status: toDo.status === "completed" ? "nonCompleted" : "completed",
+        ...task,
+        isChecked: !task.isChecked,
+        status: task.status === "completed" ? "nonCompleted" : "completed",
       };
     });
   }
 
-  // Update the task title passing a callback function to updateTodo
-  function updateTask(event, listID, toDoID) {
-    updateTodo(listID, toDoID, (toDo) => {
+  // Update the task title passing a callback function to updateTask
+  function updateTaskTitle(event, listID, taskID) {
+    updateTask(listID, taskID, (task) => {
       return {
-        ...toDo,
+        ...task,
         title: event.target.value,
       };
     });
   }
 
   // Show the deletion dialog box and save the listID and taskID of the task to be deleted
-  function alertWindow(listID, toDoID) {
+  function alertWindow(listID, taskID) {
     setDeletionDialogStatus({
       ...deletionDialogStatus,
       status: "showDeletionDialog",
       listID: listID,
-      taskID: toDoID,
+      taskID: taskID,
     });
   }
 
   // Hide the deletion dialog box and reset the listID and taskID of the task to be deleted
-  function closeAlertWindow(listID, toDoID) {
+  function closeAlertWindow() {
     setDeletionDialogStatus({
       ...deletionDialogStatus,
       status: "hideDeletionDialog",
@@ -118,7 +118,7 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
 
   return (
     <>
-      <div className="todo center">
+      <div className="task center">
         <div className="center task-content">
           {/* --- Checkbox Button - START --- */}
           <div
@@ -139,7 +139,7 @@ export default function ToDo({ listID, taskID, title, isChecked, status }) {
             type="text"
             className={`${status} task-title`}
             value={title}
-            onChange={(event) => updateTask(event, listID, taskID)}
+            onChange={(event) => updateTaskTitle(event, listID, taskID)}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 addTask(listID, taskID);
@@ -187,8 +187,8 @@ function DeletionTask({
         return list.listID === listID
           ? {
               ...list,
-              todoList: list.todoList.filter((toDo) => {
-                return toDo.taskID !== taskID;
+              todoList: list.todoList.filter((task) => {
+                return task.taskID !== taskID;
               }),
             }
           : list;
