@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../CustomContext";
 import "./ListsStyles.css";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
@@ -7,6 +7,11 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 export default function Task({ listID, taskID, title, isChecked, status }) {
   // Access the data using useContext to manage the list of tasks
   const { lists, setList } = useContext(DataContext);
+
+  // Persist the lists state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("toDoList", JSON.stringify(lists));
+  }, [lists]);
 
   // State to manage the visibility of the deletion dialog box,
   // and save the listID and taskID of the task to be deleted
@@ -46,12 +51,14 @@ export default function Task({ listID, taskID, title, isChecked, status }) {
     });
   }
 
+  // Retrieve the index of the task and its previous status to add a new task after it
   function retrieveIndexandStatus(listID, taskID) {
     const listIndexNum = lists.findIndex((list) => list.listID === listID);
     const taskIndexNum = lists[listIndexNum].todoList.findIndex(
       (task) => task.taskID === taskID,
     );
 
+    // Retrieve the previous status of the task to be used for the new task
     const prevTaskStatus = lists[listIndexNum].todoList[taskIndexNum].status;
 
     return [taskIndexNum + 1, prevTaskStatus];

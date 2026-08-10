@@ -23,13 +23,13 @@ export function ThemeProvider({ children }) {
     });
   }
 
-    // NOTES:
-    // crypto.randomUUID() is a built‑in JavaScript function that generates
-    // a unique, random, universally‑unique identifier (UUID).
-    // It’s part of the modern Web Crypto API and is supported in all modern browsers.
+  // NOTES:
+  // crypto.randomUUID() is a built‑in JavaScript function that generates
+  // a unique, random, universally‑unique identifier (UUID).
+  // It’s part of the modern Web Crypto API and is supported in all modern browsers.
 
-    // It’s the cleanest, safest way to generate unique IDs in JavaScript
-    // without using React Hooks.
+  // It’s the cleanest, safest way to generate unique IDs in JavaScript
+  // without using React Hooks.
 
   const listsArr = [
     {
@@ -82,7 +82,11 @@ export function ThemeProvider({ children }) {
     },
   ];
 
-  const [lists, setList] = useState(listsArr);
+  // State for managing the list of tasks, initialized from localStorage if available
+  const [lists, setList] = useState(() => {
+    const savedLists = localStorage.getItem("toDoList");
+    return savedLists ? JSON.parse(savedLists) : listsArr;
+  });
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, changeTheme }}>
