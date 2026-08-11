@@ -2,6 +2,20 @@
 
 .add-list-row {
     padding: 2rem;
+    justify-content: space-between;
+
+
+}
+
+@media (min-width: 767px) {
+
+    .add-list-row {
+        padding: 2rem 4rem;
+        justify-content: space-between;
+
+
+    }
+
 }
 
 .add-list-button-container {
@@ -40,6 +54,8 @@
 /* --- List Category Component - START --- */
 .listCategory-main-container {
     width: 100vw;
+    align-items: flex-start;
+    gap: 1rem;
 
     .listCategory-container {
         width: 85%;
@@ -63,6 +79,14 @@
         }
 
 
+    }
+
+    .list-checkbox {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    .list-checkbox-hide{
+        display: none;
     }
 
 
@@ -161,11 +185,11 @@
 /* --- Deletion Task Dialog Box Component - START */
 
 .deletion-dialog-box-container {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-color: #32323232;
 
     .content-container {

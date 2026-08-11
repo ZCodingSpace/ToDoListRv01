@@ -6,7 +6,13 @@ import { useContext } from "react";
 import { DataContext } from "../CustomContext";
 import Task from "./Tasks";
 
-export default function ListCategory({ listID, listTitle, todoList }) {
+export default function ListCategory({
+  listID,
+  listTitle,
+  todoList,
+  deleteStatus,
+  changeDeleteStatus,
+}) {
   // Access the data using useContext to manage the list of tasks
   const { setList } = useContext(DataContext);
 
@@ -76,12 +82,20 @@ export default function ListCategory({ listID, listTitle, todoList }) {
 
   return (
     <div className="listCategory-main-container center">
+      <input
+        type="checkbox"
+        className={`list-checkbox ${deleteStatus ? "list-checkbox-hide" : ""}`}
+        onClick={(event) => console.log(listID)}
+      />
       <div className="listCategory-container center">
         <div className="category-header center">
-
           {/* --- List Title Container - START --- */}
           <div className="center">
-            <ChevronDownIcon />
+            <ChevronDownIcon
+              onClick={(event) => {
+                event.stopPropagation();
+              }}
+            />
             <h2>{listTitle}</h2>
           </div>
           {/* --- List Title Container - END --- */}

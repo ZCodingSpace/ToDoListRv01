@@ -3,6 +3,7 @@ import { DataContext } from "../CustomContext";
 import "./ListsStyles.css";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import DeletionBox from "./DeletionBox";
 
 export default function Task({ listID, taskID, title, isChecked, status }) {
   // Access the data using useContext to manage the list of tasks
@@ -167,60 +168,13 @@ export default function Task({ listID, taskID, title, isChecked, status }) {
         {/* --- Delete Task Button - END --- */}
 
         {/* --- Deletion Task Dialog Box - START --- */}
-        <DeletionTask
+        <DeletionBox
           displayStatus={deletionDialogStatus}
           closeAlertWindow={closeAlertWindow}
+          type={"task"}
         />
         {/* --- Deletion Task Dialog Box - END --- */}
       </div>
     </>
-  );
-}
-
-// Deletion Task Dialog Box Component
-function DeletionTask({
-  // Destructure the displayStatus prop to get the status, listID, and taskID
-  displayStatus: { status, listID, taskID },
-  // A function to close the deletion dialog box using the setDeletionDialogStatus state updater function
-  closeAlertWindow,
-}) {
-  // Access the data using useContext to manage the list of tasks
-  const { setList } = useContext(DataContext);
-
-  // Delete the task from the list
-  function deleteTask() {
-    setList((prev) => {
-      return prev.map((list) => {
-        return list.listID === listID
-          ? {
-              ...list,
-              todoList: list.todoList.filter((task) => {
-                return task.taskID !== taskID;
-              }),
-            }
-          : list;
-      });
-    });
-  }
-
-  return (
-    <div className={`deletion-dialog-box-container center ${status}`}>
-      <div className="content-container center">
-        <p className="deletion-msg">
-          تحذير: لا يمكن استعادة المهمة بعد حذفها. هل تريد الحذف؟
-        </p>
-
-        {/* Deletion Task Buttons - START */}
-        <div className="buttons-container center">
-          <button className="confirm-button" onClick={deleteTask}>
-            نعم
-          </button>
-          <button className="cancel-button" onClick={closeAlertWindow}>
-            إلغاء
-          </button>
-        </div>
-        {/* Deletion Task Buttons - END */}
-      </div>
-    </div>
   );
 }
