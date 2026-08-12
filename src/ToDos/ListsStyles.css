@@ -3,14 +3,31 @@
 .add-list-row {
     padding: 2rem;
     justify-content: space-between;
+    /* background-color: #7e5a9b; */
 
+    .select-delte-icons-container {
+        padding: 0 0.5rem;
+        /* background-color: red; */
 
+        SVG {
+            width: 1.5rem;
+            margin: 0 0.2rem;
+        }
+
+        @media (min-width: 767px) {
+
+            SVG {
+                width: 2.5rem;
+            }
+
+        }
+    }
 }
 
 @media (min-width: 767px) {
 
     .add-list-row {
-        padding: 2rem 4rem;
+        padding: 2rem 5rem;
         justify-content: space-between;
 
 
@@ -85,7 +102,8 @@
         width: 1.5rem;
         height: 1.5rem;
     }
-    .list-checkbox-hide{
+
+    .list-checkbox-hide {
         display: none;
     }
 

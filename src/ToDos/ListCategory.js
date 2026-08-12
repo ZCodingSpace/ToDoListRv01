@@ -13,11 +13,10 @@ export default function ListCategory({
   deleteStatus,
   changeDeleteStatus,
   deleteFunction,
-  updateToBeDeleteList
+  updateToBeDeleteList,
 }) {
   // Access the data using useContext to manage the list of tasks
   const { setList } = useContext(DataContext);
-
 
   // Collect the not completed tasks.
   let notCompletedTasks = todoList.reduce(
@@ -86,12 +85,13 @@ export default function ListCategory({
   }
   return (
     <>
-      {" "}
       <div className="listCategory-main-container center">
         <input
           type="checkbox"
           className={`list-checkbox ${deleteStatus ? "" : "list-checkbox-hide"}`}
-          onClick={updateToBeDeleteList}
+          onClick={() => {
+            updateToBeDeleteList(listID);
+          }}
         />
         <div className="listCategory-container center">
           <div className="category-header center">

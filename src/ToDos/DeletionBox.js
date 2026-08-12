@@ -13,11 +13,15 @@ export default function DeletionBox({
 
   // Delete the task from the list
   function deleteList() {
-    setList((prev) => {
-      return prev.filter((list) => {
-        return list.listID !== listID;
+    for (const ID of listID) {
+      console.log(ID);
+      setList((prev) => {
+        return prev.filter((list) => {
+          return list.listID !== ID;
+        });
       });
-    });
+    }
+
     closeAlertWindow();
   }
 
