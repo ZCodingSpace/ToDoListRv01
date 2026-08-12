@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { DataContext } from "../CustomContext";
 import "./ListsStyles.css";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import DeletionBox from "./DeletionBox";
 
-export default function Task({ listID, taskID, title, isChecked, status }) {
+
+export default function Task({ listID, taskID, title, isChecked, status, deleteTask}) {
   // Access the data using useContext to manage the list of tasks
   const { lists, setList } = useContext(DataContext);
 
@@ -14,13 +14,6 @@ export default function Task({ listID, taskID, title, isChecked, status }) {
     localStorage.setItem("toDoList", JSON.stringify(lists));
   }, [lists]);
 
-  // State to manage the visibility of the deletion dialog box,
-  // and save the listID and taskID of the task to be deleted
-  const [deletionDialogStatus, setDeletionDialogStatus] = useState({
-    status: "hideDeletionDialog",
-    listID: "",
-    taskID: "",
-  });
 
   // Add a new task to the a specific list.
   function addTask(listID, taskID) {
@@ -106,24 +99,7 @@ export default function Task({ listID, taskID, title, isChecked, status }) {
     });
   }
 
-  // Show the deletion dialog box and save the listID and taskID of the task to be deleted
-  function alertWindow(listID, taskID) {
-    setDeletionDialogStatus({
-      ...deletionDialogStatus,
-      status: "showDeletionDialog",
-      listID: listID,
-      taskID: taskID,
-    });
-  }
-
-  // Hide the deletion dialog box and reset the listID and taskID of the task to be deleted
-  function closeAlertWindow() {
-    setDeletionDialogStatus({
-      ...deletionDialogStatus,
-      status: "hideDeletionDialog",
-    });
-  }
-
+ 
   return (
     <>
       <div className="task center">
@@ -160,20 +136,14 @@ export default function Task({ listID, taskID, title, isChecked, status }) {
         {/* --- Delete Task Button - START --- */}
         <div
           onClick={() => {
-            alertWindow(listID, taskID);
+            deleteTask("task", listID, taskID);
           }}
         >
           <XMarkIcon className="delete-task-button" />
         </div>
         {/* --- Delete Task Button - END --- */}
 
-        {/* --- Deletion Task Dialog Box - START --- */}
-        <DeletionBox
-          displayStatus={deletionDialogStatus}
-          closeAlertWindow={closeAlertWindow}
-          type={"task"}
-        />
-        {/* --- Deletion Task Dialog Box - END --- */}
+
       </div>
     </>
   );

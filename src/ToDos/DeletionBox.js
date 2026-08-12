@@ -4,10 +4,9 @@ import { DataContext } from "../CustomContext";
 // Deletion Task Dialog Box Component
 export default function DeletionBox({
   // Destructure the displayStatus prop to get the status, listID, and taskID
-  displayStatus: { status, listID, taskID },
+  displayStatus: { status, deletedType, listID, taskID },
   // A function to close the deletion dialog box using the setDeletionDialogStatus state updater function
   closeAlertWindow,
-  type,
 }) {
   // Access the data using useContext to manage the list of tasks
   const { setList } = useContext(DataContext);
@@ -19,6 +18,7 @@ export default function DeletionBox({
         return list.listID !== listID;
       });
     });
+    closeAlertWindow();
   }
 
   // Delete the task from the list
@@ -35,12 +35,14 @@ export default function DeletionBox({
           : list;
       });
     });
+    closeAlertWindow();
   }
+
   return (
     <div className={`deletion-dialog-box-container center ${status}`}>
       <div className="content-container center">
         <p className="deletion-msg">
-          {`تحذير: لا يمكن استعادة ${type === "task" ? "المهمة" : "القائمة"} بعد حذفها. هل تريد الحذف؟`}
+          {`تحذير: لا يمكن استعادة ${deletedType === "task" ? "المهمة" : "القائمة"} بعد حذفها. هل تريد الحذف؟`}
         </p>
 
         {/* Deletion Task Buttons - START */}
@@ -48,7 +50,7 @@ export default function DeletionBox({
           <button
             className="confirm-button"
             onClick={() => {
-              type === "task" ? deleteTask() : deleteList();
+              deletedType === "task" ? deleteTask() : deleteList();
             }}
           >
             نعم

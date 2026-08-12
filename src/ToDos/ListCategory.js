@@ -12,9 +12,12 @@ export default function ListCategory({
   todoList,
   deleteStatus,
   changeDeleteStatus,
+  deleteFunction,
+  updateToBeDeleteList
 }) {
   // Access the data using useContext to manage the list of tasks
   const { setList } = useContext(DataContext);
+
 
   // Collect the not completed tasks.
   let notCompletedTasks = todoList.reduce(
@@ -28,6 +31,7 @@ export default function ListCategory({
             title={task.title}
             isChecked={task.isChecked}
             status={task.status}
+            deleteTask={deleteFunction}
           ></Task>,
         );
       }
@@ -48,6 +52,7 @@ export default function ListCategory({
             title={task.title}
             isChecked={task.isChecked}
             status={task.status}
+            deleteTask={deleteFunction}
           ></Task>,
         );
       }
@@ -79,39 +84,41 @@ export default function ListCategory({
       });
     });
   }
-
   return (
-    <div className="listCategory-main-container center">
-      <input
-        type="checkbox"
-        className={`list-checkbox ${deleteStatus ? "list-checkbox-hide" : ""}`}
-        onClick={(event) => console.log(listID)}
-      />
-      <div className="listCategory-container center">
-        <div className="category-header center">
-          {/* --- List Title Container - START --- */}
-          <div className="center">
-            <ChevronDownIcon
-              onClick={(event) => {
-                event.stopPropagation();
-              }}
-            />
-            <h2>{listTitle}</h2>
-          </div>
-          {/* --- List Title Container - END --- */}
+    <>
+      {" "}
+      <div className="listCategory-main-container center">
+        <input
+          type="checkbox"
+          className={`list-checkbox ${deleteStatus ? "" : "list-checkbox-hide"}`}
+          onClick={updateToBeDeleteList}
+        />
+        <div className="listCategory-container center">
+          <div className="category-header center">
+            {/* --- List Title Container - START --- */}
+            <div className="center">
+              <ChevronDownIcon
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
+              />
+              <h2>{listTitle}</h2>
+            </div>
+            {/* --- List Title Container - END --- */}
 
-          {/* --- Add Task Button - START --- */}
-          <div>
-            <PlusIcon onClick={() => addTask(listID)} />
+            {/* --- Add Task Button - START --- */}
+            <div>
+              <PlusIcon onClick={() => addTask(listID)} />
+            </div>
+            {/* --- Add Task Button - END --- */}
           </div>
-          {/* --- Add Task Button - END --- */}
+
+          {/* --- Tasks Container - START --- */}
+          <div className="todos-container">{notCompletedTasks}</div>
+          <div className="todos-container">{completedTasks}</div>
+          {/* --- Tasks Container - END --- */}
         </div>
-
-        {/* --- Tasks Container - START --- */}
-        <div className="todos-container">{notCompletedTasks}</div>
-        <div className="todos-container">{completedTasks}</div>
-        {/* --- Tasks Container - END --- */}
       </div>
-    </div>
+    </>
   );
 }
