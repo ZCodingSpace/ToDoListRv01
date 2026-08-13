@@ -4,7 +4,7 @@ import { DataContext } from "../CustomContext";
 // Deletion Task Dialog Box Component
 export default function DeletionBox({
   // Destructure the displayStatus prop to get the status, listID, and taskID
-  displayStatus: { status, deletedType, listID, taskID },
+  displayStatus: { status, deletedType, listsArr, listID, taskID },
   // A function to close the deletion dialog box using the setDeletionDialogStatus state updater function
   closeAlertWindow,
 }) {
@@ -13,15 +13,11 @@ export default function DeletionBox({
 
   // Delete the task from the list
   function deleteList() {
-    for (const ID of listID) {
-      console.log(ID);
-      setList((prev) => {
-        return prev.filter((list) => {
-          return list.listID !== ID;
-        });
+    setList((prev) => {
+      return prev.filter((list) => {
+        return !listsArr.includes(list.listID);
       });
-    }
-
+    });
     closeAlertWindow();
   }
 

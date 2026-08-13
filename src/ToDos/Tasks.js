@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { DataContext } from "../CustomContext";
 import "./ListsStyles.css";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
@@ -8,11 +8,6 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 export default function Task({ listID, taskID, title, isChecked, status, deleteTask}) {
   // Access the data using useContext to manage the list of tasks
   const { lists, setList } = useContext(DataContext);
-
-  // Persist the lists state to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("toDoList", JSON.stringify(lists));
-  }, [lists]);
 
 
   // Add a new task to the a specific list.

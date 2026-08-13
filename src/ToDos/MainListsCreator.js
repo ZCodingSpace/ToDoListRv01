@@ -1,7 +1,7 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import ListCategory from "./ListCategory";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../CustomContext";
 import DeletionBox from "./DeletionBox";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
@@ -10,6 +10,12 @@ export default function MainLlistsCreator() {
   const { lists, setList } = useContext(DataContext);
   const [deleteListStatus, setDeleteListStatus] = useState(false);
   const [toBeDeletedList, setToBeDeletedList] = useState([]);
+
+
+    // Persist the lists state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("toDoList", JSON.stringify(lists));
+  }, [lists]);
 
   function updateToBeDeleteList(listID) {
     setToBeDeletedList([...toBeDeletedList, listID]);
@@ -52,16 +58,23 @@ export default function MainLlistsCreator() {
   const [deletionDialogStatus, setDeletionDialogStatus] = useState({
     status: "hideDeletionDialog",
     deletedType: "",
+    listsArr: [],
     listID: "",
     taskID: "",
   });
 
   // Show the deletion dialog box and save the listID and taskID of the task to be deleted
-  function deleteAlertWindow(deletedType, listID, taskID="") {
+  function deleteAlertWindow(
+    deletedType,
+    listsArr = [],
+    listID = "",
+    taskID = "",
+  ) {
     setDeletionDialogStatus({
       ...deletionDialogStatus,
       status: "showDeletionDialog",
       deletedType: deletedType,
+      listsArr: listsArr,
       listID: listID,
       taskID: taskID,
     });
@@ -70,9 +83,13 @@ export default function MainLlistsCreator() {
   // Hide the deletion dialog box and reset the listID and taskID of the task to be deleted
   function closeAlertWindow() {
     setDeletionDialogStatus({
-      ...deletionDialogStatus,
       status: "hideDeletionDialog",
+      deletedType: "",
+      listsArr: [],
+      listID: "",
+      taskID: "",
     });
+    setToBeDeletedList([]);
   }
 
   return (
@@ -89,7 +106,7 @@ export default function MainLlistsCreator() {
           <div>
             <TrashIcon
               onClick={() => {
-                deleteAlertWindow("list", toBeDeletedList );
+                deleteAlertWindow("list", toBeDeletedList);
               }}
             />
           </div>
