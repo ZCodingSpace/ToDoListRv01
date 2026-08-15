@@ -1,17 +1,19 @@
+// import styles
 import "./App.css";
-import { ThemeProvider } from "./ContextProvider";
+
+// import components
+import ContextsProvider from "./ContextsProvider";
 import HeaderSection from "./HeaderSection";
 import MainLlistsCreator from "./ToDos/MainListsCreator";
 
-function App() {
+export default function App() {
   return (
-    <ThemeProvider>
+    <ContextsProvider>
       <div dir="rtl" className="app">
         <HeaderSection />
         <MainLlistsCreator />
       </div>
-    </ThemeProvider>
+    </ContextsProvider>
   );
 }
 
-export default App;

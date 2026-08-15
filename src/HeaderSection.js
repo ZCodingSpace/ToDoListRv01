@@ -1,12 +1,20 @@
+// import styles
 import "./HeaderSection.css";
+
+// imports from React
 import { useContext } from "react";
+
+// import components
+import { ThemeContext } from "./CustomContext";
+
+// imports from Heroicons library
 import { MoonIcon } from "@heroicons/react/24/outline";
 import { SunIcon } from "@heroicons/react/24/outline";
-import { ThemeContext } from "./CustomContext";
 
 export default function HeaderSection() {
   const { theme, changeTheme } = useContext(ThemeContext);
 
+  // Format the current date in Hijri calendar using Intl.DateTimeFormat
   const hijriDateFormatter = new Intl.DateTimeFormat("ar-SA-u-ca-islamic", {
     year: "numeric",
     month: "short",
@@ -15,6 +23,7 @@ export default function HeaderSection() {
 
   let hijriDate = hijriDateFormatter.format(Date.now());
 
+  // Format the current date in Gregorian calendar using Intl.DateTimeFormat
   const gregorianDateFormatter = new Intl.DateTimeFormat("ar-SA-u-nu-latn", {
     year: "numeric",
     month: "short",
@@ -26,6 +35,7 @@ export default function HeaderSection() {
   return (
     <>
       <header className={`header-section-container center ${theme.mode}`}>
+        {/* --- Header Title and Date - START --- */}
         <div>
           <h1 className="toDo-title">المهام</h1>
 
@@ -34,19 +44,19 @@ export default function HeaderSection() {
             <p>{gregorianDate}</p>
           </div>
         </div>
+        {/* --- Header Title and Date - END --- */}
 
-        {/* Theme Toggle */}
-        <div>
-          <div className="center theme-container">
-            <div className={`${theme.dark}`} onClick={changeTheme}>
-              <SunIcon className="h-6 w-6 text-gray-500" />
-            </div>
+        {/* --- Theme Toggle - START --- */}
+        <div className="theme-container center">
+          <div className={`${theme.dark}`} onClick={changeTheme}>
+            <SunIcon />
+          </div>
 
-            <div className={`${theme.light}`} onClick={changeTheme}>
-              <MoonIcon className="h-6 w-6 text-gray-500" />
-            </div>
+          <div className={`${theme.light}`} onClick={changeTheme}>
+            <MoonIcon />
           </div>
         </div>
+        {/* --- Theme Toggle - END --- */}
       </header>
     </>
   );

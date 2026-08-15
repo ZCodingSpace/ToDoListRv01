@@ -1,43 +1,21 @@
+// imports from React
+import { useContext, useState } from "react";
+
+// import components
+import { DataContext } from "../CustomContext";
+import ListCategory from "./ListCategory";
+import DeletionBox from "./DeletionBox";
+
+// imports from Heroicons library
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import ListCategory from "./ListCategory";
-import { useContext, useEffect, useState } from "react";
-import { DataContext } from "../CustomContext";
-import DeletionBox from "./DeletionBox";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 export default function MainLlistsCreator() {
+  // Access the app data
   const { lists, setList } = useContext(DataContext);
-  const [deleteListStatus, setDeleteListStatus] = useState(false);
-  const [toBeDeletedList, setToBeDeletedList] = useState([]);
 
-  // Persist the lists state to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("toDoList", JSON.stringify(lists));
-  }, [lists]);
-
-  function updateToBeDeleteList(listID) {
-    setToBeDeletedList([...toBeDeletedList, listID]);
-  }
-
-  function toggleDeleteListsStatus() {
-    setDeleteListStatus(deleteListStatus ? false : true);
-  }
-
-  let listCategoryComponent = lists.map((list) => {
-    return (
-      <ListCategory
-        key={list.listID}
-        listID={list.listID}
-        listTitle={list.listTitle}
-        todoList={list.todoList}
-        deleteStatus={deleteListStatus}
-        changeDeleteStatus={toggleDeleteListsStatus}
-        deleteFunction={deleteAlertWindow}
-        updateToBeDeleteList={updateToBeDeleteList}
-      />
-    );
-  });
+  // ================== Add new lists - START ==================
 
   function addNewList() {
     setList((prev) => {
@@ -50,6 +28,29 @@ export default function MainLlistsCreator() {
         ...prev,
       ];
     });
+  }
+
+  // ================== Add new lists - START ==================
+
+  // ================== Edit lists - START ==================
+
+  // State to open list edit mode,
+  // which allows to select lists to be deleted and rearrange the order of the lists.
+  const [editListStatus, setEditListStatus] = useState(false);
+
+  function toggleEditListsStatus() {
+    setEditListStatus(editListStatus ? false : true);
+  }
+
+  // ================== Edit lists - END ==================
+
+  // ================== Delete lists - START ==================
+
+  // State to collect the listID of the lists to be deleted
+  const [toBeDeletedList, setToBeDeletedList] = useState([]);
+
+  function updateToBeDeleteList(listID) {
+    setToBeDeletedList([...toBeDeletedList, listID]);
   }
 
   // State to manage the visibility of the deletion dialog box,
@@ -93,30 +94,59 @@ export default function MainLlistsCreator() {
     setToBeDeletedList([]);
   }
 
+  //  ================== Delete lists - END ==================
+
+  // =================== Render Components - START ==================
+
+  // Render the list categories by mapping over the lists state
+  // and creating a ListCategory component for each list
+
+  let listCategoryComponent = lists.map((list) => {
+    return (
+      <ListCategory
+        key={list.listID}
+        listID={list.listID}
+        listTitle={list.listTitle}
+        todoList={list.todoList}
+        editStatus={editListStatus}
+        changeEditStatus={toggleEditListsStatus}
+        deleteFunction={deleteAlertWindow}
+        updateToBeDeleteList={updateToBeDeleteList}
+      />
+    );
+  });
+
   return (
     <>
       <div className="add-list-row center">
+        {/* --- Add List Button - START --- */}
         <div className="add-list-button-container center" onClick={addNewList}>
           <PlusCircleIcon />
           <h2 className="add-list-title">إضـــــــافـــة قـــــــائـــمـــة</h2>
         </div>
-        <div className="select-delte-icons-container center">
-          <div onClick={toggleDeleteListsStatus}>
+        {/* --- Add List Button - END --- */}
+
+        {/* --- Edit/Delete Buttons Container - START --- */}
+        <div className="select-editDelete-icons-container center">
+          {/* Edit */}
+          <div onClick={toggleEditListsStatus}>
             <PencilSquareIcon />
           </div>
-          <div>
-            <TrashIcon
-              onClick={() => {
-                // using an object instead of positional parameters
-                // To avoid mixing up parameters forever.
-                deleteAlertWindow({
-                  deletedType: "list",
-                  listsArr: toBeDeletedList,
-                });
-              }}
-            />
+          {/* Delete */}
+          <div
+            onClick={() => {
+              // using an object instead of positional parameters
+              // To avoid mixing up parameters forever.
+              deleteAlertWindow({
+                deletedType: "list",
+                listsArr: toBeDeletedList,
+              });
+            }}
+          >
+            <TrashIcon />
           </div>
         </div>
+        {/* --- Edit/Delete Buttons Container - END --- */}
       </div>
       <div className="list-categories-container center">
         {listCategoryComponent}
@@ -129,4 +159,6 @@ export default function MainLlistsCreator() {
       {/* --- Deletion Dialog Box - END --- */}
     </>
   );
+
+  // =================== Render Components - END ==================
 }

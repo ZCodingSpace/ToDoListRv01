@@ -1,14 +1,22 @@
-import { ThemeContext, DataContext } from "./CustomContext";
-import { useState } from "react";
+// immports from React
+import { useEffect, useState } from "react";
 
-// Provider component for managing the theme
-export function ThemeProvider({ children }) {
+// import components
+import { ThemeContext, DataContext } from "./CustomContext";
+
+// Provider component for contexts,
+// wrapping the application and providing theme and data contexts
+export default function ContextsProvider({ children }) {
+  // ================== THEME CONTEXT - START ==================
+
+  // State for managing the theme, initialized to light mode
   const [theme, setTheme] = useState({
     mode: "light",
     light: "theme-on",
     dark: "theme-off",
   });
 
+  // Function to toggle the theme between light and dark modes
   function changeTheme() {
     let themeMode = theme.mode === "light" ? "dark" : "light";
     let lightMode = theme.light === "theme-on" ? "theme-off" : "theme-on";
@@ -22,6 +30,10 @@ export function ThemeProvider({ children }) {
       };
     });
   }
+
+  // ================== THEME CONTEXT - END ==================
+
+  // ================== DATA CONTEXT - START ==================
 
   // NOTES:
   // crypto.randomUUID() is a built‑in JavaScript function that generates
@@ -87,6 +99,13 @@ export function ThemeProvider({ children }) {
     const savedLists = localStorage.getItem("toDoList");
     return savedLists ? JSON.parse(savedLists) : listsArr;
   });
+
+  // Persist the lists state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("toDoList", JSON.stringify(lists));
+  }, [lists]);
+
+  // ================== DATA CONTEXT - END ==================
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, changeTheme }}>
