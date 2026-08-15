@@ -4,11 +4,16 @@ import "./ListsStyles.css";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-
-export default function Task({ listID, taskID, title, isChecked, status, deleteTask}) {
+export default function Task({
+  listID,
+  taskID,
+  title,
+  isChecked,
+  status,
+  deleteTask,
+}) {
   // Access the data using useContext to manage the list of tasks
   const { lists, setList } = useContext(DataContext);
-
 
   // Add a new task to the a specific list.
   function addTask(listID, taskID) {
@@ -94,7 +99,6 @@ export default function Task({ listID, taskID, title, isChecked, status, deleteT
     });
   }
 
- 
   return (
     <>
       <div className="task center">
@@ -131,14 +135,14 @@ export default function Task({ listID, taskID, title, isChecked, status, deleteT
         {/* --- Delete Task Button - START --- */}
         <div
           onClick={() => {
-            deleteTask("task", listID, taskID);
+            // using an object instead of positional parameters
+            // To avoid mixing up parameters forever.
+            deleteTask({ deletedType: "task", listID: listID, taskID: taskID });
           }}
         >
           <XMarkIcon className="delete-task-button" />
         </div>
         {/* --- Delete Task Button - END --- */}
-
-
       </div>
     </>
   );

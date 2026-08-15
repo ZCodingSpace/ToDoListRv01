@@ -219,6 +219,16 @@
         border-radius: 0.25rem;
         background-color: beige;
 
+        .deletion-msg {
+            font-size: 1rem;
+        }
+
+        @media (min-width: 767px) {
+            .deletion-msg {
+                font-size: 1.5rem;
+            }
+        }
+
         .buttons-container {
             width: 100%;
             justify-content: flex-end;

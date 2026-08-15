@@ -11,8 +11,7 @@ export default function MainLlistsCreator() {
   const [deleteListStatus, setDeleteListStatus] = useState(false);
   const [toBeDeletedList, setToBeDeletedList] = useState([]);
 
-
-    // Persist the lists state to localStorage whenever it changes
+  // Persist the lists state to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("toDoList", JSON.stringify(lists));
   }, [lists]);
@@ -63,13 +62,15 @@ export default function MainLlistsCreator() {
     taskID: "",
   });
 
-  // Show the deletion dialog box and save the listID and taskID of the task to be deleted
-  function deleteAlertWindow(
+  // Show the deletion dialog box and save the deleted componet information in the state
+  // The function takes an object instead of positional parameters
+  // To avoid mixing up parameters forever.
+  function deleteAlertWindow({
     deletedType,
     listsArr = [],
     listID = "",
     taskID = "",
-  ) {
+  }) {
     setDeletionDialogStatus({
       ...deletionDialogStatus,
       status: "showDeletionDialog",
@@ -106,7 +107,12 @@ export default function MainLlistsCreator() {
           <div>
             <TrashIcon
               onClick={() => {
-                deleteAlertWindow("list", toBeDeletedList);
+                // using an object instead of positional parameters
+                // To avoid mixing up parameters forever.
+                deleteAlertWindow({
+                  deletedType: "list",
+                  listsArr: toBeDeletedList,
+                });
               }}
             />
           </div>
