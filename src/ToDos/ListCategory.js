@@ -1,6 +1,3 @@
-// import styles
-import "./ListsStyles.css";
-
 // imports from React
 import { useContext } from "react";
 
@@ -106,7 +103,7 @@ export default function ListCategory({
             onClick={() => {
               updateToBeDeleteList(listID);
             }}
-          />{" "}
+          />
         </div>
         {/* --- Select list to delete - END --- */}
 

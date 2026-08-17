@@ -1,6 +1,10 @@
+// imports from React
 import { useContext } from "react";
+
+// import components
 import { DataContext } from "../CustomContext";
-import "./ListsStyles.css";
+
+// imports from Heroicons library
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
@@ -12,7 +16,8 @@ export default function Task({
   status,
   deleteTask,
 }) {
-  // Access the data using useContext to manage the list of tasks
+
+  // Access the app data
   const { lists, setList } = useContext(DataContext);
 
   // Add a new task to the a specific list.
@@ -45,7 +50,8 @@ export default function Task({
     });
   }
 
-  // Retrieve the index of the task and its previous status to add a new task after it
+  // Retrieve the index of the task and its previous status 
+  // to add a new task after it
   function retrieveIndexandStatus(listID, taskID) {
     const listIndexNum = lists.findIndex((list) => list.listID === listID);
     const taskIndexNum = lists[listIndexNum].todoList.findIndex(

@@ -1,3 +1,6 @@
+// import styles
+import "./ListsStyles.css";
+
 // imports from React
 import { useContext, useState } from "react";
 
@@ -66,7 +69,7 @@ export default function MainLlistsCreator() {
   // Show the deletion dialog box and save the deleted componet information in the state
   // The function takes an object instead of positional parameters
   // To avoid mixing up parameters forever.
-  function deleteAlertWindow({
+  function deleteItem({
     deletedType,
     listsArr = [],
     listID = "",
@@ -110,7 +113,7 @@ export default function MainLlistsCreator() {
         todoList={list.todoList}
         editStatus={editListStatus}
         changeEditStatus={toggleEditListsStatus}
-        deleteFunction={deleteAlertWindow}
+        deleteFunction={deleteItem}
         updateToBeDeleteList={updateToBeDeleteList}
       />
     );
@@ -135,12 +138,18 @@ export default function MainLlistsCreator() {
           {/* Delete */}
           <div
             onClick={() => {
-              // using an object instead of positional parameters
-              // To avoid mixing up parameters forever.
-              deleteAlertWindow({
-                deletedType: "list",
-                listsArr: toBeDeletedList,
-              });
+              // To prevent activateing the deletion dialog box 
+              // when no lists are selected for deletion
+              if (toBeDeletedList.length === 0) {
+                return;
+              } else {
+                // using an object instead of positional parameters
+                // To avoid mixing up parameters forever.
+                deleteItem({
+                  deletedType: "list",
+                  listsArr: toBeDeletedList,
+                });
+              }
             }}
           >
             <TrashIcon />
