@@ -7,18 +7,44 @@ import { DataContext } from "../CustomContext";
 // imports from Heroicons library
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars2Icon } from "@heroicons/react/24/outline";
+
+// import from dnd-kit library
+import { useSortable } from "@dnd-kit/react/sortable";
 
 export default function Task({
+  id,
+  index,
   listID,
+  column,
   taskID,
   title,
   isChecked,
   status,
   deleteTask,
 }) {
-
   // Access the app data
   const { lists, setList } = useContext(DataContext);
+
+  // // To connect the sortable element ==> Task
+  // const [element, setElement] = useState(null);
+  // // To connect the sortable handle element ==> Bars2Icon
+  // const handleRef = useRef(null);
+
+  // ???
+  // What do I need to use isDragging
+  // ???
+  // const {ref, isDragging } = useSortable({ id, index, element, handle: handleRef, group:listID });
+  const { ref, isDragging } = useSortable({
+    id,
+    index,
+    type: "item",
+    accept: "item",
+    group: column,
+  });
+
+
+  // if (isDragging) return;
 
   // Add a new task to the a specific list.
   function addTask(listID, taskID) {
@@ -50,7 +76,7 @@ export default function Task({
     });
   }
 
-  // Retrieve the index of the task and its previous status 
+  // Retrieve the index of the task and its previous status
   // to add a new task after it
   function retrieveIndexandStatus(listID, taskID) {
     const listIndexNum = lists.findIndex((list) => list.listID === listID);
@@ -107,7 +133,18 @@ export default function Task({
 
   return (
     <>
-      <div className="task center">
+      <div
+        ref={ref}
+        // ref={setElement}
+        data-dragging={isDragging}
+        className="task center"
+        // data-shadow={isDragging || undefined}
+      >
+        <div>
+          {/* <div ref={handleRef}> */}
+          <Bars2Icon />
+        </div>
+
         <div className="center task-content">
           {/* --- Checkbox Button - START --- */}
           <div

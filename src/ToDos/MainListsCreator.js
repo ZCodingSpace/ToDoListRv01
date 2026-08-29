@@ -2,7 +2,7 @@
 import "./ListsStyles.css";
 
 // imports from React
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 // import components
 import { DataContext } from "../CustomContext";
@@ -13,6 +13,7 @@ import DeletionBox from "./DeletionBox";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { DragDropProvider } from "@dnd-kit/react";
 
 export default function MainLlistsCreator() {
   // Access the app data
@@ -108,6 +109,7 @@ export default function MainLlistsCreator() {
     return (
       <ListCategory
         key={list.listID}
+        id={list.listID}
         listID={list.listID}
         listTitle={list.listTitle}
         todoList={list.todoList}
@@ -118,6 +120,44 @@ export default function MainLlistsCreator() {
       />
     );
   });
+
+  // Convert the lists into dnd‑kit “items”
+  // dnd‑kit expects:
+  //   {
+  //   columnID: [taskID, taskID, taskID]
+  // }
+  // const columns = lists.reduce((listsNewArchitecture, list) => {
+  //   listsNewArchitecture[list.listID] = list.todoList.map((task) => {
+  //     return task.taskID;
+  //   });
+  //   return listsNewArchitecture;
+  // }, {});
+
+  // const [items, setItems] = useState(columns);
+  let snapshot = useRef(structuredClone(lists));
+  const isDragging = useRef(false);
+
+  // ONLY fires when localStorage changes in ANOTHER browser tab, not the same tab.
+  // eslint-disable-next-line
+  useEffect(() => {
+    console.log("inside the useEffect");
+    function handleStorage(event) {
+      console.log(event);
+      if (event.key === "toDoList" && !isDragging.current) {
+        try {
+          const updated = JSON.parse(event.newValue);
+          if (Array.isArray(updated)) {
+            setList(updated);
+          }
+        } catch {
+          // Ignore invalid JSON
+        }
+      }
+    }
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   return (
     <>
@@ -138,7 +178,7 @@ export default function MainLlistsCreator() {
           {/* Delete */}
           <div
             onClick={() => {
-              // To prevent activateing the deletion dialog box 
+              // To prevent activateing the deletion dialog box
               // when no lists are selected for deletion
               if (toBeDeletedList.length === 0) {
                 return;
@@ -157,9 +197,25 @@ export default function MainLlistsCreator() {
         </div>
         {/* --- Edit/Delete Buttons Container - END --- */}
       </div>
-      <div className="list-categories-container center">
-        {listCategoryComponent}
-      </div>
+      <DragDropProvider
+        onDragStart={() => {
+          snapshot.current = structuredClone(lists);
+          isDragging.current = true;
+          // const arr1 = structuredClone(lists);
+          // console.log("start", arr1);
+        }}
+        onDragEnd={(event) => {
+          // const arr2 = structuredClone(lists);
+          // console.log("end", arr2);
+          // setList(snapshot.current)
+          isDragging.current = false;
+          reOrderTasks(event);
+        }}
+      >
+        <div className="list-categories-container center">
+          {listCategoryComponent}
+        </div>
+      </DragDropProvider>
       {/* --- Deletion Dialog Box - START --- */}
       <DeletionBox
         displayStatus={deletionDialogStatus}
@@ -170,4 +226,41 @@ export default function MainLlistsCreator() {
   );
 
   // =================== Render Components - END ==================
+
+  function reOrderTasks(event) {
+    if (event.canceled) {
+      setList(snapshot.current);
+      return;
+    }
+
+    const { operation } = event;
+
+    const { id, initialIndex, index, initialGroup, group } = operation.source;
+    const targetID = operation.target.id;
+
+    if (initialGroup == null || group == null || targetID == null) return;
+
+    const listsCopy = structuredClone(snapshot.current);
+
+    const initialList = listsCopy.find((list) => {
+      return list.listID === initialGroup;
+    });
+    const movedTask = initialList.todoList.splice(initialIndex, 1)[0];
+
+    if (targetID === id || targetID === initialGroup || targetID === group) {
+      const newList = listsCopy.find((list) => {
+        return list.listID === group;
+      });
+      newList.todoList.splice(index, 0, movedTask);
+
+      setList(listsCopy);
+    } else {
+      const newList = listsCopy.find((list) => {
+        return list.listID === targetID;
+      });
+      newList.todoList.splice(0, 0, movedTask);
+
+      setList(listsCopy);
+    }
+  }
 }

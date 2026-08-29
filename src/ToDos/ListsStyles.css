@@ -79,6 +79,7 @@
         width: 85%;
         flex-direction: column;
 
+        /* background-color: #821cd6; */
         .category-header {
             width: 100%;
             padding: 0.2rem 1rem;
@@ -93,7 +94,18 @@
 
         .tasks-container {
             width: 97%;
+            min-height: 4rem;
             padding: 0.2rem 1rem;
+
+            .notCompleted-tasks-container,
+            .completed-tasks-container{
+                width: 100%;
+                min-height: 2rem;
+                background-color: red;
+            }
+            .notCompleted-tasks-container{
+                background-color: green;
+            }
         }
 
 

@@ -9,8 +9,11 @@ import Task from "./Tasks";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Bars2Icon } from "@heroicons/react/24/outline";
+import { useDroppable } from "@dnd-kit/react";
+import { CollisionPriority } from "@dnd-kit/abstract";
 
 export default function ListCategory({
+  id,
   listID,
   listTitle,
   todoList,
@@ -21,6 +24,15 @@ export default function ListCategory({
 }) {
   // Access the app data
   const { setList } = useContext(DataContext);
+
+  const { isDropTarget, ref } = useDroppable({
+    id,
+    type: "column",
+    accept: "item",
+    collisionPriority: CollisionPriority.low,
+  });
+
+  const droppableStyle = isDropTarget ? { background: "#00000030" } : undefined;
 
   // Add a new task to the a specific list.
   function addTask(listID) {
@@ -50,12 +62,15 @@ export default function ListCategory({
 
   // Collect the not completed tasks.
   let notCompletedTasks = todoList.reduce(
-    (notCompletedItems, task) => {
+    (notCompletedItems, task, index) => {
       if (!task.isChecked) {
         notCompletedItems.push(
           <Task
             key={task.taskID}
+            id={task.taskID}
+            index={index}
             listID={listID}
+            column={id}
             taskID={task.taskID}
             title={task.title}
             isChecked={task.isChecked}
@@ -71,12 +86,15 @@ export default function ListCategory({
 
   // Collect the completed tasks.
   let completedTasks = todoList.reduce(
-    (completedItems, task) => {
+    (completedItems, task, index) => {
       if (task.isChecked) {
         completedItems.push(
           <Task
             key={task.taskID}
+            id={task.taskID}
+            index={index}
             listID={listID}
+            column={id}
             taskID={task.taskID}
             title={task.title}
             isChecked={task.isChecked}
@@ -92,7 +110,7 @@ export default function ListCategory({
 
   return (
     <>
-      <div className="listCategory-main-container center">
+      <div className="listCategory-main-container center" ref={ref}>
         {/* --- Select list to delete - START --- */}
         <div
           className={`list-checkbox-container center ${editStatus ? "" : "list-edit-mode-hide"}`}
@@ -132,19 +150,36 @@ export default function ListCategory({
           {/* --- List Header Container - END --- */}
 
           {/* --- Tasks Container - START --- */}
-          <div className="tasks-container">{notCompletedTasks}</div>
-          <div className="tasks-container">{completedTasks}</div>
+          <div className="tasks-container"  style={droppableStyle}>
+            {notCompletedTasks}
+            {completedTasks}
+
+            {/* <div
+              className="notCompleted-tasks-container"
+              ref={ref}
+              style={droppableStyle}
+            >
+              {notCompletedTasks}
+            </div>
+            <div
+              className="completed-tasks-container"
+              ref={ref}
+              style={droppableStyle}
+            >
+              {completedTasks}
+            </div> */}
+          </div>
           {/* --- Tasks Container - END --- */}
         </div>
         {/* --- List Content Container - END --- */}
 
-        {/* --- Select list to reorder - START --- */}
+        {/* --- Reorder List Button - START --- */}
         <div
           className={`list-order-bars-container center ${editStatus ? "" : "list-edit-mode-hide"}`}
         >
           <Bars2Icon />
         </div>
-        {/* --- Select list to reorder - END --- */}
+        {/* --- Reorder List Button - END --- */}
       </div>
     </>
   );
