@@ -17,21 +17,12 @@ import { DragDropProvider } from "@dnd-kit/react";
 
 export default function MainLlistsCreator() {
   // Access the app data
-  const { lists, setList } = useContext(DataContext);
+  const { lists, dispatch } = useContext(DataContext);
 
   // ================== Add new lists - START ==================
 
   function addNewList() {
-    setList((prev) => {
-      return [
-        {
-          listID: crypto.randomUUID(),
-          listTitle: "قائمة جديدة",
-          todoList: [],
-        },
-        ...prev,
-      ];
-    });
+    dispatch({ type: "add_new_list" });
   }
 
   // ================== Add new lists - START ==================
@@ -100,6 +91,40 @@ export default function MainLlistsCreator() {
 
   //  ================== Delete lists - END ==================
 
+  //  ================== Reorder tasks - START ==================
+
+  let snapshot = useRef(structuredClone(lists));
+  const isDragging = useRef(false);
+
+  function reOrderTasks(event) {
+    dispatch({
+      type: "re_order_task",
+      event: event,
+      currentSnapshot: snapshot.current,
+    });
+  }
+
+  // ONLY fires when localStorage changes in ANOTHER browser tab, not the same tab.
+  // eslint-disable-next-line
+  useEffect(() => {
+    function handleStorage(event) {
+      dispatch({
+        type: "synchronize_tabs",
+        event: event,
+        draggingState: isDragging.current,
+      });
+    }
+
+    // 1) Setup phase (Do something when the component mounts)
+    window.addEventListener("storage", handleStorage);
+
+    // 2) Cleanup phase (Undo it when the component unmounts)
+    // The return React’s signal: “This is the cleanup. Run it later.”
+    return () => window.removeEventListener("storage", handleStorage);
+  });
+
+  //  ================== Reorder tasks - END ==================
+
   // =================== Render Components - START ==================
 
   // Render the list categories by mapping over the lists state
@@ -120,44 +145,6 @@ export default function MainLlistsCreator() {
       />
     );
   });
-
-  // Convert the lists into dnd‑kit “items”
-  // dnd‑kit expects:
-  //   {
-  //   columnID: [taskID, taskID, taskID]
-  // }
-  // const columns = lists.reduce((listsNewArchitecture, list) => {
-  //   listsNewArchitecture[list.listID] = list.todoList.map((task) => {
-  //     return task.taskID;
-  //   });
-  //   return listsNewArchitecture;
-  // }, {});
-
-  // const [items, setItems] = useState(columns);
-  let snapshot = useRef(structuredClone(lists));
-  const isDragging = useRef(false);
-
-  // ONLY fires when localStorage changes in ANOTHER browser tab, not the same tab.
-  // eslint-disable-next-line
-  useEffect(() => {
-    console.log("inside the useEffect");
-    function handleStorage(event) {
-      console.log(event);
-      if (event.key === "toDoList" && !isDragging.current) {
-        try {
-          const updated = JSON.parse(event.newValue);
-          if (Array.isArray(updated)) {
-            setList(updated);
-          }
-        } catch {
-          // Ignore invalid JSON
-        }
-      }
-    }
-
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
-  }, []);
 
   return (
     <>
@@ -201,13 +188,8 @@ export default function MainLlistsCreator() {
         onDragStart={() => {
           snapshot.current = structuredClone(lists);
           isDragging.current = true;
-          // const arr1 = structuredClone(lists);
-          // console.log("start", arr1);
         }}
         onDragEnd={(event) => {
-          // const arr2 = structuredClone(lists);
-          // console.log("end", arr2);
-          // setList(snapshot.current)
           isDragging.current = false;
           reOrderTasks(event);
         }}
@@ -226,41 +208,4 @@ export default function MainLlistsCreator() {
   );
 
   // =================== Render Components - END ==================
-
-  function reOrderTasks(event) {
-    if (event.canceled) {
-      setList(snapshot.current);
-      return;
-    }
-
-    const { operation } = event;
-
-    const { id, initialIndex, index, initialGroup, group } = operation.source;
-    const targetID = operation.target.id;
-
-    if (initialGroup == null || group == null || targetID == null) return;
-
-    const listsCopy = structuredClone(snapshot.current);
-
-    const initialList = listsCopy.find((list) => {
-      return list.listID === initialGroup;
-    });
-    const movedTask = initialList.todoList.splice(initialIndex, 1)[0];
-
-    if (targetID === id || targetID === initialGroup || targetID === group) {
-      const newList = listsCopy.find((list) => {
-        return list.listID === group;
-      });
-      newList.todoList.splice(index, 0, movedTask);
-
-      setList(listsCopy);
-    } else {
-      const newList = listsCopy.find((list) => {
-        return list.listID === targetID;
-      });
-      newList.todoList.splice(0, 0, movedTask);
-
-      setList(listsCopy);
-    }
-  }
 }

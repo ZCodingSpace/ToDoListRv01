@@ -1,5 +1,7 @@
 // immports from React
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
+
+import toDoListReducer from "./toDoListReducer";
 
 // import components
 import { ThemeContext, DataContext } from "./CustomContext";
@@ -95,10 +97,14 @@ export default function ContextsProvider({ children }) {
   ];
 
   // State for managing the list of tasks, initialized from localStorage if available
-  const [lists, setList] = useState(() => {
-    const savedLists = localStorage.getItem("toDoList");
-    return savedLists ? JSON.parse(savedLists) : listsArr;
-  });
+  // const [lists, setList] = useState(() => {
+  //   const savedLists = localStorage.getItem("toDoList");
+  //   return savedLists ? JSON.parse(savedLists) : listsArr;
+  // });
+
+  const savedLists = JSON.parse(localStorage.getItem("toDoList")) || listsArr;
+  console.log(savedLists);
+  const [lists, dispatch] = useReducer(toDoListReducer, savedLists);
 
   // Persist the lists state to localStorage whenever it changes
   useEffect(() => {
@@ -109,7 +115,7 @@ export default function ContextsProvider({ children }) {
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, changeTheme }}>
-      <DataContext.Provider value={{ lists, setList }}>
+      <DataContext.Provider value={{ lists, dispatch }}>
         {children}
       </DataContext.Provider>
     </ThemeContext.Provider>
