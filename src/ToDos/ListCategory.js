@@ -23,7 +23,7 @@ export default function ListCategory({
   updateToBeDeleteList,
 }) {
   // Access the app data
-  const { setList } = useContext(DataContext);
+  const { dispatch } = useContext(DataContext);
 
   const { isDropTarget, ref } = useDroppable({
     id,
@@ -36,26 +36,7 @@ export default function ListCategory({
 
   // Add a new task to the a specific list.
   function addTask(listID) {
-    setList((prev) => {
-      return prev.map((list) => {
-        // Level 1: List Categories
-        return list.listID === listID
-          ? {
-              ...list,
-              // Level 2: Tasks
-              todoList: [
-                {
-                  taskID: crypto.randomUUID(),
-                  title: "",
-                  isChecked: false,
-                  status: "nonCompleted",
-                },
-                ...todoList, // Add the new task to the beginning of the list
-              ],
-            }
-          : list;
-      });
-    });
+    dispatch({ type: "click_to_add_task", listID: listID });
   }
 
   // ================== Render Components - START ==================
@@ -150,24 +131,9 @@ export default function ListCategory({
           {/* --- List Header Container - END --- */}
 
           {/* --- Tasks Container - START --- */}
-          <div className="tasks-container"  style={droppableStyle}>
+          <div className="tasks-container" style={droppableStyle}>
             {notCompletedTasks}
             {completedTasks}
-
-            {/* <div
-              className="notCompleted-tasks-container"
-              ref={ref}
-              style={droppableStyle}
-            >
-              {notCompletedTasks}
-            </div>
-            <div
-              className="completed-tasks-container"
-              ref={ref}
-              style={droppableStyle}
-            >
-              {completedTasks}
-            </div> */}
           </div>
           {/* --- Tasks Container - END --- */}
         </div>

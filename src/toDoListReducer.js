@@ -8,6 +8,9 @@ export default function toDoListReducer(currentState, action) {
     case "add_new_list": {
       return addNewList(currentState);
     }
+    case "click_to_add_task": {
+      return addTask(currentState, action.listID);
+    }
     case "re_order_task": {
       return reOrderTasks(action.event, action.currentSnapshot);
     }
@@ -29,6 +32,28 @@ function addNewList(currentState) {
     },
     ...currentState,
   ];
+}
+
+function addTask(currentState, listID) {
+    return currentState.map((list) => {
+      // Level 1: List Categories
+      return list.listID === listID
+        ? {
+            ...list,
+            // Level 2: Tasks
+            todoList: [
+              {
+                taskID: crypto.randomUUID(),
+                title: "",
+                isChecked: false,
+                status: "nonCompleted",
+              },
+              ...list.todoList, // Add the new task to the beginning of the list
+            ],
+          }
+        : list;
+    });
+
 }
 
 function handleStorage(event, isDragging) {
