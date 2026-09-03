@@ -1,5 +1,5 @@
 // imports from React
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 
 // import components
 import { DataContext } from "../CustomContext";
@@ -29,7 +29,7 @@ export default function Task({
   // // To connect the sortable element ==> Task
   // const [element, setElement] = useState(null);
   // // To connect the sortable handle element ==> Bars2Icon
-  // const handleRef = useRef(null);
+  const handleRef = useRef(null);
 
   // ???
   // What do I need to use isDragging
@@ -38,6 +38,7 @@ export default function Task({
   const { ref, isDragging } = useSortable({
     id,
     index,
+    handle: handleRef,
     type: "item",
     accept: "item",
     group: column,
@@ -54,8 +55,7 @@ export default function Task({
         className="task center"
         // data-shadow={isDragging || undefined}
       >
-        <div>
-          {/* <div ref={handleRef}> */}
+        <div ref={handleRef}>
           <Bars2Icon />
         </div>
 
