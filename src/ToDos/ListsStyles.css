@@ -184,11 +184,13 @@
         }
 
         .checkbox-container {
+            width: 2rem;
+            height: 2rem;
             cursor: pointer;
 
             SVG {
 
-                width: 1.5rem !important;
+                width: 1.5rem;
             }
 
             .checked-badge-icon {
