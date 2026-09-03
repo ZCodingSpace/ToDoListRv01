@@ -9,31 +9,23 @@ export default function DeletionBox({
   closeAlertWindow,
 }) {
   // Access the data using useContext to manage the list of tasks
-  const { setList } = useContext(DataContext);
+  const { dispatch } = useContext(DataContext);
 
   // Delete the task from the list
   function deleteList() {
-    setList((prev) => {
-      return prev.filter((list) => {
-        return !listsArr.includes(list.listID);
-      });
+    dispatch({
+      type: "delete_list",
+      listsArr: listsArr,
     });
     closeAlertWindow();
   }
 
   // Delete the task from the list
   function deleteTask() {
-    setList((prev) => {
-      return prev.map((list) => {
-        return list.listID === listID
-          ? {
-              ...list,
-              todoList: list.todoList.filter((task) => {
-                return task.taskID !== taskID;
-              }),
-            }
-          : list;
-      });
+    dispatch({
+      type: "delete_task",
+      listID: listID,
+      taskID: taskID,
     });
     closeAlertWindow();
   }

@@ -23,11 +23,13 @@ export default function toDoListReducer(currentState, action) {
       );
     }
     case "update_task_status": {
-      return updateStatus(
-        currentState,
-        action.listID,
-        action.taskID,
-      );
+      return updateStatus(currentState, action.listID, action.taskID);
+    }
+    case "delete_list": {
+      return deleteList(currentState, action.listsArr);
+    }
+    case "delete_task": {
+      return deleteTask(currentState, action.listID, action.taskID);
     }
     case "re_order_task": {
       return reOrderTasks(action.event, action.currentSnapshot);
@@ -88,7 +90,6 @@ function retrieveIndexandStatus(currentState, listID, taskID) {
   return [taskIndexNum + 1, prevTaskStatus];
 }
 
-// Add a new task to the a specific list.
 function PressEnterToAddTask(currentState, listID, taskID) {
   const [newTaskIndex, prevTaskStatus] = retrieveIndexandStatus(
     currentState,
@@ -117,7 +118,7 @@ function PressEnterToAddTask(currentState, listID, taskID) {
   });
 }
 
-// Update the task title and status using a callback function to avoid unnecessary re-renders
+// Update the task title and status using a callback function.
 function updateTask(currentState, listID, taskID, updater) {
   return currentState.map((list) => {
     // Level 1: List Categories
@@ -135,7 +136,7 @@ function updateTask(currentState, listID, taskID, updater) {
   });
 }
 
-// Update the task title passing a callback function to updateTask
+// Update the task title passing a callback function to updateTask.
 function updateTaskTitle(currentState, event, listID, taskID) {
   return updateTask(currentState, listID, taskID, (task) => {
     return {
@@ -145,7 +146,7 @@ function updateTaskTitle(currentState, event, listID, taskID) {
   });
 }
 
-// Update the status of the task and toggle the checkbox passing a callback function to updateTask
+// Update the status of the task and toggle the checkbox passing a callback function to updateTask.
 function updateStatus(currentState, listID, taskID) {
   return updateTask(currentState, listID, taskID, (task) => {
     return {
@@ -156,17 +157,24 @@ function updateStatus(currentState, listID, taskID) {
   });
 }
 
-function handleStorage(event, isDragging) {
-  if (event.key === "toDoList" && !isDragging) {
-    try {
-      const updated = JSON.parse(event.newValue);
-      if (Array.isArray(updated)) {
-        return updated;
-      }
-    } catch {
-      // Ignore invalid JSON
-    }
-  }
+function deleteList(currentState, listsArr) {
+  return currentState.filter((list) => {
+    return !listsArr.includes(list.listID);
+  });
+}
+
+// Delete the task from the list
+function deleteTask(currentState, listID, taskID) {
+  return currentState.map((list) => {
+    return list.listID === listID
+      ? {
+          ...list,
+          todoList: list.todoList.filter((task) => {
+            return task.taskID !== taskID;
+          }),
+        }
+      : list;
+  });
 }
 
 function reOrderTasks(event, currentSnapshot) {
@@ -202,5 +210,18 @@ function reOrderTasks(event, currentSnapshot) {
     newList.todoList.splice(0, 0, movedTask);
 
     return listsCopy;
+  }
+}
+
+function handleStorage(event, isDragging) {
+  if (event.key === "toDoList" && !isDragging) {
+    try {
+      const updated = JSON.parse(event.newValue);
+      if (Array.isArray(updated)) {
+        return updated;
+      }
+    } catch {
+      // Ignore invalid JSON
+    }
   }
 }
