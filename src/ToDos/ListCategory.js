@@ -1,5 +1,5 @@
 // imports from React
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 // import components
 import { DataContext } from "../CustomContext";
@@ -11,6 +11,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Bars2Icon } from "@heroicons/react/24/outline";
 import { useDroppable } from "@dnd-kit/react";
 import { CollisionPriority } from "@dnd-kit/abstract";
+import { PencilIcon } from "@heroicons/react/24/outline";
 
 export default function ListCategory({
   id,
@@ -18,7 +19,6 @@ export default function ListCategory({
   listTitle,
   todoList,
   editStatus,
-  changeEditStatus,
   deleteFunction,
   updateToBeDeleteList,
 }) {
@@ -37,6 +37,14 @@ export default function ListCategory({
   // Add a new task to the a specific list.
   function addTask(listID) {
     dispatch({ type: "click_to_add_task", listID: listID });
+  }
+
+  // State to open list edit mode,
+  // which allows to select lists to be deleted and rearrange the order of the lists.
+  const [editTaskStatus, setEditTaskStatus] = useState(false);
+
+  function toggleEditListsStatus() {
+    setEditTaskStatus(editTaskStatus ? false : true);
   }
 
   // ================== Render Components - START ==================
@@ -122,11 +130,17 @@ export default function ListCategory({
             </div>
             {/* --- List Title Container - END --- */}
 
-            {/* --- Add Task Button - START --- */}
-            <div onClick={() => addTask(listID)}>
-              <PlusIcon />
+            <div className="task-edit-icons-container center">
+              {/* --- Edit Task Button - START --- */}
+              <div className="PencilIcon"  onClick={toggleEditListsStatus}>
+                <PencilIcon />
+              </div>
+
+              {/* --- Add Task Button --- */}
+              <div className="PlusIcon" onClick={() => addTask(listID)}>
+                <PlusIcon />
+              </div>
             </div>
-            {/* --- Add Task Button - END --- */}
           </div>
           {/* --- List Header Container - END --- */}
 

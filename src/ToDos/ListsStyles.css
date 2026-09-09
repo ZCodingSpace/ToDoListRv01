@@ -1,3 +1,12 @@
+:root {
+
+    --Pastel-Pink-Light: #FFCAD4;
+    --Alabaster-Grey-Light: #d8e2dc;
+    --Powder-Petal-Light: #ffe5d9;
+}
+
+
+
 /* --- Main Lists Creator Component - START --- */
 
 .add-list-row {
@@ -61,8 +70,9 @@
 }
 
 .list-categories-container {
-    flex-direction: column;
-    gap: 4rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2rem;
 }
 
 /* --- Main Lists Creator Component - END --- */
@@ -70,13 +80,13 @@
 
 /* --- List Category Component - START --- */
 .listCategory-main-container {
-    width: 100vw;
-    padding: 0 1rem;
+    max-width: 24rem;
     align-items: flex-start;
     gap: 0.2rem;
+    background-color: rgb(from var(--Powder-Petal-Light) r g b / 0.5);
 
     .listCategory-container {
-        width: 85%;
+        width: 100%;
         flex-direction: column;
 
         /* background-color: #821cd6; */
@@ -87,9 +97,25 @@
             border-radius: 0.4rem;
             background-color: #e4b7e5;
 
-            SVG {
-                width: 2rem;
+            .task-edit-icons-container {
+                gap: 0.25rem;
+                .PencilIcon {
+                    SVG {
+
+                        width: 1.4rem;
+                    }
+                }
+
+                .PlusIcon {
+                    SVG {
+
+                        width: 1.7rem;
+                    }
+                }
+
             }
+
+
         }
 
         .tasks-container {
@@ -98,12 +124,13 @@
             padding: 0.2rem 1rem;
 
             .notCompleted-tasks-container,
-            .completed-tasks-container{
+            .completed-tasks-container {
                 width: 100%;
                 min-height: 2rem;
                 background-color: red;
             }
-            .notCompleted-tasks-container{
+
+            .notCompleted-tasks-container {
                 background-color: green;
             }
         }

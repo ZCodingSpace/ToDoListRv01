@@ -139,7 +139,6 @@ export default function MainLlistsCreator() {
         listTitle={list.listTitle}
         todoList={list.todoList}
         editStatus={editListStatus}
-        changeEditStatus={toggleEditListsStatus}
         deleteFunction={deleteItem}
         updateToBeDeleteList={updateToBeDeleteList}
       />
