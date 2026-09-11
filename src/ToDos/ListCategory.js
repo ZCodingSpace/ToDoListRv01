@@ -18,6 +18,7 @@ export default function ListCategory({
   listID,
   listTitle,
   todoList,
+  background,
   editStatus,
   deleteFunction,
   updateToBeDeleteList,
@@ -39,14 +40,6 @@ export default function ListCategory({
     dispatch({ type: "click_to_add_task", listID: listID });
   }
 
-  // State to open list edit mode,
-  // which allows to select lists to be deleted and rearrange the order of the lists.
-  const [editTaskStatus, setEditTaskStatus] = useState(false);
-
-  function toggleEditListsStatus() {
-    setEditTaskStatus(editTaskStatus ? false : true);
-  }
-
   // ================== Render Components - START ==================
 
   // Collect the not completed tasks.
@@ -64,6 +57,7 @@ export default function ListCategory({
             title={task.title}
             isChecked={task.isChecked}
             status={task.status}
+            background={background}
             deleteTask={deleteFunction}
           ></Task>,
         );
@@ -88,6 +82,7 @@ export default function ListCategory({
             title={task.title}
             isChecked={task.isChecked}
             status={task.status}
+            background={background}
             deleteTask={deleteFunction}
           ></Task>,
         );
@@ -116,36 +111,22 @@ export default function ListCategory({
 
         {/* --- List Content Container - START --- */}
 
-        <div className="listCategory-container center">
+        <div
+          className={`listCategory-container center list-background-${background}`}
+        >
           {/* --- List Header Container - START --- */}
           <div className="category-header center">
-            {/* --- List Title Container - START --- */}
-            <div className="center">
-              <ChevronDownIcon
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
-              />
-              <h2>{listTitle}</h2>
-            </div>
-            {/* --- List Title Container - END --- */}
-
-            <div className="task-edit-icons-container center">
-              {/* --- Edit Task Button - START --- */}
-              <div className="PencilIcon"  onClick={toggleEditListsStatus}>
-                <PencilIcon />
-              </div>
-
-              {/* --- Add Task Button --- */}
-              <div className="PlusIcon" onClick={() => addTask(listID)}>
-                <PlusIcon />
-              </div>
+            {/* --- List Title --- */}
+            <h2>{listTitle}</h2>
+            {/* --- Add Task Button --- */}
+            <div className="PlusIcon center" onClick={() => addTask(listID)}>
+              <PlusIcon />
             </div>
           </div>
           {/* --- List Header Container - END --- */}
 
           {/* --- Tasks Container - START --- */}
-          <div className="tasks-container" style={droppableStyle}>
+          <div className={`tasks-container center`} style={droppableStyle}>
             {notCompletedTasks}
             {completedTasks}
           </div>

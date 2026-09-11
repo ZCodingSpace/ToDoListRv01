@@ -25,8 +25,6 @@ export default function MainLlistsCreator() {
     dispatch({ type: "add_new_list" });
   }
 
-  // ================== Add new lists - START ==================
-
   // ================== Edit lists - START ==================
 
   // State to open list edit mode,
@@ -130,7 +128,7 @@ export default function MainLlistsCreator() {
   // Render the list categories by mapping over the lists state
   // and creating a ListCategory component for each list
 
-  let listCategoryComponent = lists.map((list) => {
+  let listCategoryComponent = lists.map((list, index) => {
     return (
       <ListCategory
         key={list.listID}
@@ -138,6 +136,7 @@ export default function MainLlistsCreator() {
         listID={list.listID}
         listTitle={list.listTitle}
         todoList={list.todoList}
+        background={(index % 4) + 1}
         editStatus={editListStatus}
         deleteFunction={deleteItem}
         updateToBeDeleteList={updateToBeDeleteList}

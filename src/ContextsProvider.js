@@ -96,14 +96,9 @@ export default function ContextsProvider({ children }) {
     },
   ];
 
-  // State for managing the list of tasks, initialized from localStorage if available
-  // const [lists, setList] = useState(() => {
-  //   const savedLists = localStorage.getItem("toDoList");
-  //   return savedLists ? JSON.parse(savedLists) : listsArr;
-  // });
+
 
   const savedLists = JSON.parse(localStorage.getItem("toDoList")) || listsArr;
-  console.log(savedLists);
   const [lists, dispatch] = useReducer(toDoListReducer, savedLists);
 
   // Persist the lists state to localStorage whenever it changes

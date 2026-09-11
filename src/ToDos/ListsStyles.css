@@ -1,8 +1,11 @@
 :root {
 
     --Pastel-Pink-Light: #FFCAD4;
-    --Alabaster-Grey-Light: #d8e2dc;
-    --Powder-Petal-Light: #ffe5d9;
+    --Alabaster-Grey-Light: #D8E2DC;
+    --Almond-Silk-Light: #FCDBCE;
+    --Pale-Sky-Light: #D4E5F7;
+    --Light-Apricot-Light: #FBE5B7;
+    --main-border-radius: 0.32rem;
 }
 
 
@@ -14,8 +17,9 @@
     justify-content: space-between;
     /* background-color: #7e5a9b; */
 
+
     .select-editDelete-icons-container {
-        padding: 0 0.5rem;
+        padding: 0 0.48rem;
         /* background-color: red; */
 
         SVG {
@@ -47,10 +51,10 @@
 .add-list-button-container {
     width: fit-content;
     justify-content: flex-start;
-    gap: 0.5rem;
+    gap: 0.48rem;
     padding: 0 1rem;
     cursor: pointer;
-    border-radius: 0.5rem;
+    border-radius: 0.48rem;
 
     SVG {
         width: 1.5rem;
@@ -80,39 +84,27 @@
 
 /* --- List Category Component - START --- */
 .listCategory-main-container {
-    max-width: 24rem;
+    width: 20rem;
     align-items: flex-start;
     gap: 0.2rem;
-    background-color: rgb(from var(--Powder-Petal-Light) r g b / 0.5);
 
     .listCategory-container {
         width: 100%;
         flex-direction: column;
+        border-radius: var(--main-border-radius);
 
         /* background-color: #821cd6; */
         .category-header {
             width: 100%;
-            padding: 0.2rem 1rem;
+            padding: 0.32rem 1.20rem;
             justify-content: space-between;
-            border-radius: 0.4rem;
-            background-color: #e4b7e5;
 
-            .task-edit-icons-container {
-                gap: 0.25rem;
-                .PencilIcon {
-                    SVG {
+            .PlusIcon {
 
-                        width: 1.4rem;
-                    }
+                SVG {
+
+                    width: 1.7rem;
                 }
-
-                .PlusIcon {
-                    SVG {
-
-                        width: 1.7rem;
-                    }
-                }
-
             }
 
 
@@ -121,22 +113,33 @@
         .tasks-container {
             width: 97%;
             min-height: 4rem;
-            padding: 0.2rem 1rem;
-
-            .notCompleted-tasks-container,
-            .completed-tasks-container {
-                width: 100%;
-                min-height: 2rem;
-                background-color: red;
-            }
-
-            .notCompleted-tasks-container {
-                background-color: green;
-            }
+            padding: 0.24rem 0.48rem 0.72rem;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.48rem;
         }
-
-
     }
+
+    .list-background-1 {
+        background-color: rgb(from var(--Pastel-Pink-Light) r g b / 0.5);
+    }
+
+    .list-background-2 {
+        background-color: rgb(from var(--Alabaster-Grey-Light) r g b / 0.5);
+    }
+
+    .list-background-3 {
+        background-color: rgb(from var(--Almond-Silk-Light) r g b / 0.5);
+    }
+
+    .list-background-4 {
+        background-color: rgb(from var(--Pale-Sky-Light) r g b / 0.5);
+    }
+
+    .list-background-5 {
+        background-color: rgb(from var(--Light-Apricot-Light) r g b / 0.5);
+    }
+
 
     .list-checkbox-container,
     .list-order-bars-container {
@@ -149,7 +152,7 @@
 
     @media (min-width: 767px) {
         .list-checkbox-container {
-            margin-left: 0.5rem;
+            margin-left: 0.48rem;
         }
 
     }
@@ -195,14 +198,15 @@
 .task {
 
     justify-content: space-between;
-    border-bottom: 1px solid #e4b7e5;
     font-size: 1.5rem;
+    background-color: var(--Powder-Petal-Light);
+    border-radius: var(--main-border-radius);
 
     .task-content {
-        padding: 0.5rem 0;
+        padding: 0.48rem 0;
         flex-grow: 1;
         justify-content: flex-start;
-        gap: 0.5rem;
+        gap: 0.48rem;
 
         input[type=checkbox] {
             position: absolute;
@@ -276,6 +280,26 @@
 
 }
 
+.task-background-1 {
+    background-color: var(--Pastel-Pink-Light);
+}
+
+.task-background-2 {
+    background-color: var(--Alabaster-Grey-Light);
+}
+
+.task-background-3 {
+    background-color: var(--Almond-Silk-Light);
+}
+
+.task-background-4 {
+    background-color: var(--Pale-Sky-Light);
+}
+
+.task-background-5 {
+    background-color: var(--Light-Apricot-Light);
+}
+
 /* --- Task Component - END --- */
 
 /* --- Deletion Task Dialog Box Component - START */
@@ -310,7 +334,7 @@
         .buttons-container {
             width: 100%;
             justify-content: flex-end;
-            gap: 0.5rem;
+            gap: 0.48rem;
 
             .confirm-button,
             .cancel-button {

@@ -1,5 +1,5 @@
 // imports from React
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 
 // import components
 import { DataContext } from "../CustomContext";
@@ -21,6 +21,7 @@ export default function Task({
   title,
   isChecked,
   status,
+  background,
   deleteTask,
 }) {
   // Access the app data
@@ -46,13 +47,14 @@ export default function Task({
 
   // if (isDragging) return;
 
+
   return (
     <>
       <div
         ref={ref}
         // ref={setElement}
         data-dragging={isDragging}
-        className="task center"
+        className={`task center task-background-${background}`}
         // data-shadow={isDragging || undefined}
       >
         <div ref={handleRef}>
