@@ -1,5 +1,5 @@
 // imports from React
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 // import components
 import { DataContext } from "../CustomContext";
@@ -7,11 +7,9 @@ import Task from "./Tasks";
 
 // imports from Heroicons library
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Bars2Icon } from "@heroicons/react/24/outline";
 import { useDroppable } from "@dnd-kit/react";
 import { CollisionPriority } from "@dnd-kit/abstract";
-import { PencilIcon } from "@heroicons/react/24/outline";
 
 export default function ListCategory({
   id,

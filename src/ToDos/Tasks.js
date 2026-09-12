@@ -26,20 +26,14 @@ export default function Task({
 }) {
   // Access the app data
   const { dispatch } = useContext(DataContext);
-
-  // // To connect the sortable element ==> Task
-  // const [element, setElement] = useState(null);
-  // // To connect the sortable handle element ==> Bars2Icon
-  const handleRef = useRef(null);
+  const [deletMode, setDeleteMode] = useState("hide")
 
   // ???
   // What do I need to use isDragging
   // ???
-  // const {ref, isDragging } = useSortable({ id, index, element, handle: handleRef, group:listID });
   const { ref, isDragging } = useSortable({
     id,
     index,
-    handle: handleRef,
     type: "item",
     accept: "item",
     group: column,
@@ -57,10 +51,6 @@ export default function Task({
         className={`task center task-background-${background}`}
         // data-shadow={isDragging || undefined}
       >
-        <div ref={handleRef}>
-          <Bars2Icon />
-        </div>
-
         <div className="center task-content">
           {/* --- Checkbox Button - START --- */}
           <div
@@ -102,17 +92,21 @@ export default function Task({
                 });
               }
             }}
-          ></input>
+
+            // ???
+            // I want to add onFoucs here
+            ></input>
           {/* --- Task Title Input - END --- */}
         </div>
 
         {/* --- Delete Task Button - START --- */}
         <div
+        className={`delete-task-button center ${deletMode}`} 
           onClick={() => {
             deleteTask({ deletedType: "task", listID: listID, taskID: taskID });
           }}
         >
-          <XMarkIcon className="delete-task-button" />
+          <XMarkIcon/>
         </div>
         {/* --- Delete Task Button - END --- */}
       </div>

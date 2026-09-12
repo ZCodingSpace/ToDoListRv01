@@ -136,7 +136,7 @@ export default function MainLlistsCreator() {
         listID={list.listID}
         listTitle={list.listTitle}
         todoList={list.todoList}
-        background={(index % 4) + 1}
+        background={(index % 7) + 1}
         editStatus={editListStatus}
         deleteFunction={deleteItem}
         updateToBeDeleteList={updateToBeDeleteList}

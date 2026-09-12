@@ -1,10 +1,12 @@
 :root {
 
-    --Pastel-Pink-Light: #FFCAD4;
-    --Alabaster-Grey-Light: #D8E2DC;
-    --Almond-Silk-Light: #FCDBCE;
-    --Pale-Sky-Light: #D4E5F7;
-    --Light-Apricot-Light: #FBE5B7;
+    --Card-Color-1-Light: #F1D9D1;
+    --Card-Color-2-Light: #D8E2DC;
+    --Card-Color-3-Light: #FCE0C3;
+    --Card-Color-4-Light: #E3E5DF;
+    --Card-Color-5-Light: #D9E5EF;
+    --Card-Color-6-Light: #ECDED0;
+    --Card-Color-7-Light: #F7E5BF;
     --main-border-radius: 0.32rem;
 }
 
@@ -111,33 +113,41 @@
         }
 
         .tasks-container {
-            width: 97%;
+            width: 100%;
             min-height: 4rem;
-            padding: 0.24rem 0.48rem 0.72rem;
+            padding: 0.24rem 0.64rem 0.72rem;
             flex-direction: column;
-            align-items: flex-start;
+            justify-content: flex-start;
             gap: 0.48rem;
         }
     }
 
     .list-background-1 {
-        background-color: rgb(from var(--Pastel-Pink-Light) r g b / 0.5);
+        background-color: rgb(from var(--Card-Color-1-Light) r g b / 0.5);
     }
 
     .list-background-2 {
-        background-color: rgb(from var(--Alabaster-Grey-Light) r g b / 0.5);
+        background-color: rgb(from var(--Card-Color-2-Light) r g b / 0.5);
     }
 
     .list-background-3 {
-        background-color: rgb(from var(--Almond-Silk-Light) r g b / 0.5);
+        background-color: rgb(from var(--Card-Color-3-Light) r g b / 0.5);
     }
 
     .list-background-4 {
-        background-color: rgb(from var(--Pale-Sky-Light) r g b / 0.5);
+        background-color: rgb(from var(--Card-Color-4-Light) r g b / 0.5);
     }
 
     .list-background-5 {
-        background-color: rgb(from var(--Light-Apricot-Light) r g b / 0.5);
+        background-color: rgb(from var(--Card-Color-5-Light) r g b / 0.5);
+    }
+
+    .list-background-6 {
+        background-color: rgb(from var(--Card-Color-6-Light) r g b / 0.5);
+    }
+
+    .list-background-7 {
+        background-color: rgb(from var(--Card-Color-7-Light) r g b / 0.5);
     }
 
 
@@ -196,14 +206,13 @@
 
 
 .task {
-
+    width: 100%;
+    padding: 0 0.32rem;
     justify-content: space-between;
-    font-size: 1.5rem;
-    background-color: var(--Powder-Petal-Light);
     border-radius: var(--main-border-radius);
 
     .task-content {
-        padding: 0.48rem 0;
+        padding: 0.32rem 0;
         flex-grow: 1;
         justify-content: flex-start;
         gap: 0.48rem;
@@ -232,10 +241,10 @@
         }
 
         input[type=text] {
-            width: 90%;
+            width: 72%;
             font-size: 1rem;
             border: none;
-            /* background-color: red; */
+            background-color: inherit;
 
         }
 
@@ -246,7 +255,7 @@
 
         @media (min-width: 767px) {
             input[type=text] {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
 
             }
 
@@ -266,8 +275,13 @@
     }
 
     .delete-task-button {
-        width: 1.5rem;
+
         cursor: pointer;
+
+        SVG {
+            width: 1.5rem;
+        }
+
 
     }
 
@@ -278,26 +292,38 @@
 
     }
 
+    .delete-task-button.hide {
+        display: none;
+    }
+
 }
 
 .task-background-1 {
-    background-color: var(--Pastel-Pink-Light);
+    background-color: var(--Card-Color-1-Light);
 }
 
 .task-background-2 {
-    background-color: var(--Alabaster-Grey-Light);
+    background-color: var(--Card-Color-2-Light);
 }
 
 .task-background-3 {
-    background-color: var(--Almond-Silk-Light);
+    background-color: var(--Card-Color-3-Light);
 }
 
 .task-background-4 {
-    background-color: var(--Pale-Sky-Light);
+    background-color: var(--Card-Color-4-Light);
 }
 
 .task-background-5 {
-    background-color: var(--Light-Apricot-Light);
+    background-color: var(--Card-Color-5-Light);
+}
+
+.task-background-6 {
+    background-color: var(--Card-Color-6-Light);
+}
+
+.task-background-7 {
+    background-color: var(--Card-Color-7-Light);
 }
 
 /* --- Task Component - END --- */
