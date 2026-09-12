@@ -1,5 +1,5 @@
 // imports from React
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 // import components
 import { DataContext } from "../CustomContext";
@@ -7,7 +7,6 @@ import { DataContext } from "../CustomContext";
 // imports from Heroicons library
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Bars2Icon } from "@heroicons/react/24/outline";
 
 // import from dnd-kit library
 import { useSortable } from "@dnd-kit/react/sortable";
@@ -26,7 +25,7 @@ export default function Task({
 }) {
   // Access the app data
   const { dispatch } = useContext(DataContext);
-  const [deletMode, setDeleteMode] = useState("hide")
+  const [deletMode, setDeleteMode] = useState("hide");
 
   // ???
   // What do I need to use isDragging
@@ -41,6 +40,31 @@ export default function Task({
 
   // if (isDragging) return;
 
+  const lastClickRef = useRef(null);
+
+  useEffect(() => {
+    // Store where the user clicked
+    function handleMouseDown(event) {
+      lastClickRef.current = event.target;
+      if (event.target.className === "cancel-button") {
+        setDeleteMode("hide");
+      }
+    }
+
+    window.addEventListener("mousedown", handleMouseDown);
+    return () => window.removeEventListener("mousedown", handleMouseDown);
+  }, []);
+
+  function handleBlur() {
+    const clickedElement = lastClickRef.current.className.animVal;
+    if (clickedElement !== "XMarkIcon") {
+      closeDeleteMode();
+    }
+  }
+
+  function closeDeleteMode() {
+    setDeleteMode("hide");
+  }
 
   return (
     <>
@@ -92,21 +116,21 @@ export default function Task({
                 });
               }
             }}
-
-            // ???
-            // I want to add onFoucs here
-            ></input>
+            onFocus={() => setDeleteMode("show")}
+            onBlur={handleBlur}
+          ></input>
           {/* --- Task Title Input - END --- */}
         </div>
 
         {/* --- Delete Task Button - START --- */}
         <div
-        className={`delete-task-button center ${deletMode}`} 
-          onClick={() => {
+          className={`delete-task-button center ${deletMode}`}
+          onClick={(event) => {
+             event.stopPropagation()
             deleteTask({ deletedType: "task", listID: listID, taskID: taskID });
           }}
         >
-          <XMarkIcon/>
+          <XMarkIcon className="XMarkIcon" />
         </div>
         {/* --- Delete Task Button - END --- */}
       </div>
