@@ -121,7 +121,7 @@ export default function MainLlistsCreator() {
   // Render the list categories by mapping over the lists state
   // and creating a ListCategory component for each list
 
-  let listCategoryComponent = lists.map((list, index) => {
+  let listCategoryComponent = Array.isArray(lists) && lists.map((list, index) => {
     return (
       <ListCategory
         key={list.listID}

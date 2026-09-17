@@ -96,10 +96,21 @@ export default function ContextsProvider({ children }) {
     },
   ];
 
+  let initialLists;
 
+  try {
+    const saved = localStorage.getItem("toDoList");
+    initialLists = saved ? JSON.parse(saved) : listsArr;
+  } catch {
+    initialLists = listsArr;
+  }
+  
+  const [lists, dispatch] = useReducer(toDoListReducer, initialLists);
 
-  const savedLists = JSON.parse(localStorage.getItem("toDoList")) || listsArr;
-  const [lists, dispatch] = useReducer(toDoListReducer, savedLists);
+  // Auto-Reset if the local storage deleted manualy.
+  if (!lists) {
+  localStorage.setItem("toDoList", JSON.stringify(listsArr));
+}
 
   // Persist the lists state to localStorage whenever it changes
   useEffect(() => {
