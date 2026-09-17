@@ -1,5 +1,4 @@
 //
-//
 
 export default function toDoListReducer(currentState, action) {
   console.log("inside the reducer");
@@ -32,7 +31,7 @@ export default function toDoListReducer(currentState, action) {
       return deleteTask(currentState, action.listID, action.taskID);
     }
     case "re_order_task": {
-      return reOrderTasks(action.event, action.currentSnapshot);
+      return reOrderTasks(currentState, action.event);
     }
     case "synchronize_tabs": {
       return handleStorage(action.event, action.draggingState);
@@ -177,9 +176,9 @@ function deleteTask(currentState, listID, taskID) {
   });
 }
 
-function reOrderTasks(event, currentSnapshot) {
+function reOrderTasks(currentState, event) {
   if (event.canceled) {
-    return currentSnapshot;
+    return currentState;
   }
 
   const { operation } = event;
@@ -189,7 +188,7 @@ function reOrderTasks(event, currentSnapshot) {
 
   if (initialGroup == null || group == null || targetID == null) return;
 
-  const listsCopy = structuredClone(currentSnapshot);
+  const listsCopy = structuredClone(currentState);
 
   const initialList = listsCopy.find((list) => {
     return list.listID === initialGroup;
@@ -197,13 +196,15 @@ function reOrderTasks(event, currentSnapshot) {
   const movedTask = initialList.todoList.splice(initialIndex, 1)[0];
 
   if (targetID === id || targetID === initialGroup || targetID === group) {
+    console.log("if")
     const newList = listsCopy.find((list) => {
       return list.listID === group;
     });
     newList.todoList.splice(index, 0, movedTask);
-
+    
     return listsCopy;
   } else {
+    console.log("else")
     const newList = listsCopy.find((list) => {
       return list.listID === targetID;
     });

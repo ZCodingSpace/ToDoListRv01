@@ -91,19 +91,17 @@ export default function MainLlistsCreator() {
 
   //  ================== Reorder tasks - START ==================
 
-  let snapshot = useRef(structuredClone(lists));
+  // const snapshot = useRef(structuredClone(lists));
   const isDragging = useRef(false);
 
   function reOrderTasks(event) {
     dispatch({
       type: "re_order_task",
       event: event,
-      currentSnapshot: snapshot.current,
     });
   }
 
   // ONLY fires when localStorage changes in ANOTHER browser tab, not the same tab.
-  // eslint-disable-next-line
   useEffect(() => {
     function handleStorage(event) {
       dispatch({
@@ -112,12 +110,7 @@ export default function MainLlistsCreator() {
         draggingState: isDragging.current,
       });
     }
-
-    // 1) Setup phase (Do something when the component mounts)
     window.addEventListener("storage", handleStorage);
-
-    // 2) Cleanup phase (Undo it when the component unmounts)
-    // The return React’s signal: “This is the cleanup. Run it later.”
     return () => window.removeEventListener("storage", handleStorage);
   });
 
@@ -184,7 +177,6 @@ export default function MainLlistsCreator() {
       </div>
       <DragDropProvider
         onDragStart={() => {
-          snapshot.current = structuredClone(lists);
           isDragging.current = true;
         }}
         onDragEnd={(event) => {

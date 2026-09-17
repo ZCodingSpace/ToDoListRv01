@@ -28,7 +28,7 @@ export default function ListCategory({
     id,
     type: "column",
     accept: "item",
-    collisionPriority: CollisionPriority.low,
+    collisionPriority: CollisionPriority.Low,
   });
 
   const droppableStyle = isDropTarget ? { background: "#00000030" } : undefined;

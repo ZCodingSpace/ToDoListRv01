@@ -126,7 +126,7 @@ export default function Task({
         <div
           className={`delete-task-button center ${deletMode}`}
           onClick={(event) => {
-             event.stopPropagation()
+            event.stopPropagation();
             deleteTask({ deletedType: "task", listID: listID, taskID: taskID });
           }}
         >
